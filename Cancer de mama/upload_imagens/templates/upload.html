@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cancer de mama</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .upload-section {
+            margin-bottom: 25px;
+        }
+
+        .upload-label {
+            display: block;
+            font-weight: 600;
+            color: #444;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .upload-area {
+            border: 2px dashed #667eea;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f8f9ff;
+        }
+
+        .upload-area:hover {
+            border-color: #764ba2;
+            background: #f0f2ff;
+            transform: translateY(-2px);
+        }
+
+        .upload-area.has-file {
+            border-color: #10b981;
+            background: #f0fdf4;
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .upload-text {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .file-name {
+            margin-top: 10px;
+            color: #10b981;
+            font-weight: 600;
+            word-break: break-all;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .preview-container {
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .preview-image {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 30px;
+        }
+
+        .btn-submit:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .message {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 500;
+            display: none;
+        }
+
+        .message.success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #10b981;
+        }
+
+        .message.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #ef4444;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📸 Teste de Cancer de mama</h1>
+        <p class="subtitle">Selecione duas imagens para enviar</p>
+
+        <form id="uploadForm">
+            <div class="upload-section">
+                <label class="upload-label">Primeira Imagem</label>
+                <div class="upload-area" id="uploadArea1" onclick="document.getElementById('image1').click()">
+                    <div class="upload-icon">📁</div>
+                    <div class="upload-text">Clique para selecionar a imagem</div>
+                    <div class="file-name" id="fileName1"></div>
+                    <div class="preview-container" id="preview1"></div>
+                </div>
+                <input type="file" id="image1" name="image1" accept="image/*" required>
+            </div>
+
+            <div class="upload-section">
+                <label class="upload-label">Segunda Imagem</label>
+                <div class="upload-area" id="uploadArea2" onclick="document.getElementById('image2').click()">
+                    <div class="upload-icon">📁</div>
+                    <div class="upload-text">Clique para selecionar a imagem</div>
+                    <div class="file-name" id="fileName2"></div>
+                    <div class="preview-container" id="preview2"></div>
+                </div>
+                <input type="file" id="image2" name="image2" accept="image/*" required>
+            </div>
+
+            <button type="submit" class="btn-submit" id="submitBtn">Enviar Imagens</button>
+        </form>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p style="margin-top: 10px; color: #666;">Enviando imagens...</p>
+        </div>
+
+        <div class="message" id="message"></div>
+    </div>
+
+    <script>
+        function setupImageInput(inputId, areaId, fileNameId, previewId) {
+            const input = document.getElementById(inputId);
+            const area = document.getElementById(areaId);
+            const fileName = document.getElementById(fileNameId);
+            const preview = document.getElementById(previewId);
+
+            input.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    area.classList.add('has-file');
+                    fileName.textContent = `✓ ${file.name}`;
+                    
+                    // Preview da imagem
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        preview.innerHTML = `<img src="${e.target.result}" class="preview-image" alt="Preview">`;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        setupImageInput('image1', 'uploadArea1', 'fileName1', 'preview1');
+        setupImageInput('image2', 'uploadArea2', 'fileName2', 'preview2');
+
+        document.getElementById('uploadForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const image1 = document.getElementById('image1').files[0];
+            const image2 = document.getElementById('image2').files[0];
+            const submitBtn = document.getElementById('submitBtn');
+            const loading = document.getElementById('loading');
+            const message = document.getElementById('message');
+
+            if (!image1 || !image2) {
+                showMessage('Por favor, selecione ambas as imagens', 'error');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('image1', image1);
+            formData.append('image2', image2);
+
+            submitBtn.disabled = true;
+            loading.style.display = 'block';
+            message.style.display = 'none';
+
+            try {
+                const response = await fetch('/upload/', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showMessage(data.message, 'success');
+                    // Limpar formulário após 2 segundos
+                    setTimeout(() => {
+                        document.getElementById('uploadForm').reset();
+                        document.querySelectorAll('.upload-area').forEach(area => {
+                            area.classList.remove('has-file');
+                        });
+                        document.querySelectorAll('.file-name').forEach(fn => fn.textContent = '');
+                        document.querySelectorAll('.preview-container').forEach(p => p.innerHTML = '');
+                    }, 2000);
+                } else {
+                    showMessage(data.message, 'error');
+                }
+            } catch (error) {
+                showMessage('Erro ao enviar imagens. Tente novamente.', 'error');
+                console.error('Erro:', error);
+            } finally {
+                submitBtn.disabled = false;
+                loading.style.display = 'none';
+            }
+        });
+
+        function showMessage(text, type) {
+            const message = document.getElementById('message');
+            message.textContent = text;
+            message.className = `message ${type}`;
+            message.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
