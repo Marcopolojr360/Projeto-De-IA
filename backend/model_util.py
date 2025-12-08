@@ -18,9 +18,9 @@ def predict_instance(model, x):
     try:
         if hasattr(model, "classes"):
             label = model.classes_[idx]
-            pred_name = class_map.get(int(label), str(label))
+            pred_name = classmap.get(int(label), str(label))
         else:
-            pred_name = class_map.get(idx, str(idx))
+            pred_name = classmap.get(idx, str(idx))
     except:
         pred_name = str(idx)
     return pred_name, confidence, probs

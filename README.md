@@ -238,7 +238,7 @@ Agora vamos colocar a API no ar.
 Execute o comando:
 
 ```bash
-uvicorn Cancer_de_mama.backend.api:app --reload
+uvicorn backend.api:app --reload
 ```
 
 Se tudo der certo, você verá uma mensagem verde parecida com esta:
