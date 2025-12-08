@@ -1,265 +1,460 @@
-# Detecção de Câncer de Mama (IA)
+# 🩺 Detecção de Câncer de Mama (IA)
 
 Este projeto consiste em uma aplicação web completa (Fullstack) desenvolvida para auxiliar na detecção precoce de câncer de mama utilizando Inteligência Artificial.
 
 A solução integra um **Frontend** interativo para envio de exames, um **Backend** e um modelo de **Machine Learning Supervisionado** (Random Forest) capaz de analisar padrões em dados médicos e classificar diagnósticos com alta precisão.
 
-### 🛠️ Tecnologias Utilizadas
-* **Frontend & Uploads:** Python (Django) - Gerenciamento de interface e arquivos de mídia.
-* **Backend & API:** FastAPI - Processamento rápido das requisições.
-* **Inteligência Artificial:** Scikit-Learn - Modelo supervisionado para classificação (Benigno/Maligno).
-* **Banco de Dados:** SQLite (Padrão Django) para persistência de dados.
+## 🛠️ Tecnologias Utilizadas
+* **Frontend & Uploads:** Python (Django) - Gerenciamento de interface e arquivos de mídia
+* **Backend & API:** FastAPI - Processamento rápido das requisições
+* **Inteligência Artificial:** Scikit-Learn - Modelo supervisionado para classificação (Benigno/Maligno)
+* **Banco de Dados:** SQLite (Padrão Django) para persistência de dados
 
-### 🎯 Objetivo
+## 🎯 Objetivo
 Facilitar a triagem de diagnósticos médicos através de uma interface simples onde profissionais ou pacientes podem enviar imagens/dados, recebendo uma predição instantânea baseada em aprendizado de máquina.
 
-# 🖥️ Frontend - Interface Web (Django)
 
-Este guia ajuda qualquer pessoa a rodar a parte visual (o site) do projeto de Detecção de Câncer de Mama. Esta aplicação foi feita utilizando **Python** e **Django**.
+## 📋 Índice
+1. [Instalar o Python](#1-instalar-o-python)
+2. [Preparar o Backend (API)](#2-preparar-o-backend-api)
+3. [Preparar o Frontend (Site)](#3-preparar-o-frontend-site)
+4. [Rodar o Projeto](#4-rodar-o-projeto)
+5. [Solução de Problemas](#5-solução-de-problemas)
 
-Siga os passos abaixo na ordem exata.
 
------
 
-## 🚀 1. Instalar o Python (Se não tiver)
+## 1️⃣ Instalar o Python
 
-Se você já instalou o Python para o backend, pode pular para o Passo 2. Caso contrário:
+### | Windows
 
-### 🪟 Windows
+1. Acesse [python.org/downloads](https://www.python.org/downloads/)
+2. Baixe a versão mais recente (botão amarelo grande)
+3. **⚠️ MUITO IMPORTANTE:** Ao abrir o instalador, marque a opção **"Add Python to PATH"** na parte inferior da janela ANTES de clicar em *Install Now*
+4. Clique em *Install Now* e aguarde
+5. Quando terminar, clique em *Close*
 
-1.  Acesse [python.org/downloads](https://www.python.org/downloads/).
-2.  Baixe a versão mais recente (botão amarelo).
-3.  **MUITO IMPORTANTE:** Ao abrir o instalador, marque a opção **"Add Python to PATH"** na parte inferior da janela antes de clicar em *Install*.
-4.  Conclua a instalação clicando em *Close*.
+### Como verificar se instalou corretamente:
+1. Aperte as teclas `Windows + R`
+2. Digite `cmd` e aperte Enter
+3. No terminal preto que abrir, digite: `python --version`
+4. Se aparecer algo como `Python 3.12.x`, deu certo! ✅
 
-### 🐧 Linux (Ubuntu/Debian)
+### | Linux (Ubuntu/Debian)
 
-Abra o seu terminal (Ctrl+Alt+T) e rode os comandos abaixo:
+### 1. Abra o terminal (aperte `Ctrl + Alt + T`)
+### 2. Cole os comandos abaixo (um de cada vez) e aperte Enter:
 
 ```bash
 sudo apt update
 sudo apt install -y python3-full python3-pip
-````
-
-*(Digite sua senha de usuário se pedir e dê Enter. A senha não aparece enquanto você digita, isso é normal).*
-
------
-
-## 📂 2. Preparar o Ambiente
-
-Abra o terminal (Linux) ou Prompt de Comando/PowerShell (Windows) **dentro da pasta deste projeto** (onde está o arquivo `manage.py`).
-
-### Passo 2.1: Criar o Ambiente Virtual
-
-Isso cria uma pasta isolada para instalar as bibliotecas do projeto sem interferir no seu sistema.
-
-  * **🪟 Windows:**
-
-    ```powershell
-    python -m venv .venv_front
-    ```
-
-  * **🐧 Linux:**
-
-    ```bash
-    python3 -m venv .venv_front
-    ```
-
-### Passo 2.2: Ativar o Ambiente
-
-Agora vamos "entrar" nessa pasta isolada.
-
-  * **🪟 Windows:**
-
-    ```powershell
-    .\.venv_front\Scripts\activate
-    ```
-
-    *(Se aparecer um erro vermelho sobre scripts, rode: `Set-ExecutionPolicy Unrestricted -Scope Process` e tente ativar de novo).*
-
-  * **🐧 Linux:**
-
-    ```bash
-    source .venv_front/bin/activate
-    ```
-
-✅ **Como saber se funcionou?** O seu terminal deve mostrar `(.venv_front)` no começo da linha.
-
------
-
-## 📦 3. Instalar Dependências (Django)
-
-Com o `(.venv_front)` ativo no terminal, vamos instalar o **Django** e outras ferramentas necessárias para lidar com imagens e conexões.
-
-Execute:
-
-```bash
-pip install django pillow requests
 ```
 
-  * `django`: O framework principal do site.
-  * `pillow`: Biblioteca para lidar com o upload de imagens (ex: mamografias).
-  * `requests`: Útil caso o frontend precise conversar com o backend de IA.
+### 3. Digite sua senha de usuário quando pedir (a senha não aparece enquanto você digita, é normal)
 
------
-
-## 🛠️ 4. Configurar o Banco de Dados
-
-O Django precisa criar um pequeno banco de dados local para funcionar. Basta rodar este comando:
-
-  * **🪟 Windows:**
-
-    ```powershell
-    python manage.py migrate
-    ```
-
-  * **🐧 Linux:**
-
-    ```bash
-    python3 manage.py migrate
-    ```
-
-✅ Se aparecerem várias linhas com **OK** verde, deu certo.
-
------
-
-## ▶️ 5. Rodar o Site
-
-Agora vamos colocar o site no ar\!
-
-⚠️ **Atenção:** Se o seu Backend (API) já estiver rodando na porta 8000, o Django pode dar erro. Recomendo rodar o Django em uma porta diferente (ex: 8001).
-
-No terminal (com o venv ativo), rode:
-
-  * **🪟 Windows:**
-
-    ```powershell
-    python manage.py runserver 8001
-    ```
-
-  * **🐧 Linux:**
-
-    ```bash
-    python3 manage.py runserver 8001
-    ```
-
-Se tudo der certo, você verá algo como:
-
-> `Starting development server at http://127.0.0.1:8001/`
+### Como verificar se instalou corretamente:
+Digite no terminal:
+```bash
+python3 --version
+```
+Se aparecer algo como `Python 3.12.x`, deu certo! ✅
 
 
-## 🧪 Como Acessar?
 
-1.  Mantenha o terminal aberto (se fechar, o site cai).
-2.  Abra seu navegador.
-3.  Acesse: **[http://127.0.0.1:8001](https://www.google.com/search?q=http://127.0.0.1:8001)**
+## 2️⃣ Preparar o Backend (API)
 
-Pronto\! A interface visual deve carregar.
+O Backend é a parte que faz a inteligência artificial funcionar. Vamos configurá-lo primeiro.
 
+## * Passo 1: Abrir o Terminal na Pasta Correta
 
-## 📂 1. Preparar o Ambiente
+### | Windows:
+1. Abra a pasta do projeto no Windows Explorer
+2. Clique com o botão direito em um espaço vazio dentro da pasta
+3. Selecione **"Abrir no Terminal"** ou **"Abrir janela do PowerShell aqui"**
 
-Abra o terminal (Linux) ou Prompt de Comando/PowerShell (Windows) **dentro da pasta deste projeto**.
+**OU:**
 
-### Passo 1.1: Criar o Ambiente Virtual
+1. Abra o terminal (Windows + R, digite `cmd`, Enter)
+2. Use o comando `cd` para navegar até a pasta. Exemplo:
+```powershell
+cd C:\Users\SeuNome\Downloads\Cancer_de_mama
+```
+
+### | Linux:
+1. Abra o terminal (Ctrl + Alt + T)
+2. Use o comando `cd` para navegar até a pasta. Exemplo:
+```bash
+cd ~/Downloads/Cancer_de_mama
+```
+
+**OU:**
+
+1. Abra a pasta do projeto no gerenciador de arquivos
+2. Clique com o botão direito e selecione **"Abrir no Terminal"**
+
+## * Passo 2: Criar o Ambiente Virtual do Backend
 
 Isso cria uma "caixa isolada" para não bagunçar seu computador.
 
-  * **🪟 Windows:**
+### | Windows:
+```powershell
+python -m venv .venv_backend
+```
 
-    ```powershell
-    python -m venv .venv
-    ```
+### | Linux:
+```bash
+python3 -m venv .venv_backend
+```
 
-  * **🐧 Linux:**
-
-    ```bash
-    python3 -m venv .venv
-    ```
-
-### Passo 1.2: Ativar o Ambiente
+## * Passo 3: Ativar o Ambiente Virtual
 
 Você precisa "entrar" nessa caixa isolada.
 
-  * **🪟 Windows:**
+### | Windows:
+```powershell
+.\.venv_backend\Scripts\activate
+```
 
-    ```powershell
-    .\.venv\Scripts\activate
-    ```
+**Se der erro de permissão**, rode este comando primeiro:
+```powershell
+Set-ExecutionPolicy Unrestricted -Scope Process
+```
+E depois tente ativar novamente.
 
-    *(Se der erro de permissão, rode `Set-ExecutionPolicy Unrestricted -Scope Process` e tente de novo).*
+### | Linux:
+```bash
+source .venv_backend/bin/activate
+```
 
-  * **🐧 Linux:**
+✅ **Como saber se funcionou?**  
+O seu terminal deve mostrar `(.venv_backend)` no começo da linha, assim:
+```
+(.venv_backend) C:\Users\SeuNome\Cancer_de_mama>
+```
 
-    ```bash
-    source .venv/bin/activate
-    ```
+## * Passo 4: Instalar as Dependências do Backend
 
-✅ **Como saber se funcionou?** O seu terminal deve mostrar `(.venv)` no começo da linha.
-
------
-
-## 📦 2. Instalar Dependências
-
-Com o `(.venv)` aparecendo no terminal, instale as ferramentas necessárias:
+Com o ambiente ativo (você deve ver `(.venv_backend)`), instale as bibliotecas:
 
 ```bash
 pip install fastapi uvicorn scikit-learn pandas numpy pydantic
 ```
 
------
+Aguarde a instalação terminar (pode demorar alguns minutos).
 
-## 🧠 3. Gerar o Modelo de IA
+## * Passo 5: Gerar o Modelo de IA
 
-Antes de iniciar o servidor, precisamos "treinar" e salvar o arquivo de inteligência artificial. Existe um script pronto para isso.
+Antes de iniciar o servidor, precisamos criar o arquivo de inteligência artificial.
 
-No terminal (ainda com o `.venv` ativo), rode:
+**IMPORTANTE:** Certifique-se de estar na pasta raiz do projeto (onde está o arquivo `README.md`).
 
-  * **🪟 Windows:**
+### | Windows:
+```powershell
+python backend/gerar_modelo.py
+```
 
-    ```powershell
-    python gerar_modelo.py
-    ```
+### | Linux:
+```bash
+python3 backend/gerar_modelo.py
+```
 
-  * **🐧 Linux:**
+✅ Se aparecer a mensagem **"Sucesso!"**, o modelo foi criado corretamente!
 
-    ```bash
-    python3 gerar_modelo.py
-    ```
 
-✅ Se aparecer **"Sucesso\!"**, o arquivo foi criado.
 
------
+## 3️⃣ Preparar o Frontend (Site)
 
-## ▶️ 4. Rodar o Servidor (Backend)
+Agora vamos configurar a parte visual do site.
 
-Agora vamos colocar a API no ar.
+## * Passo 1: Abrir um NOVO Terminal
 
-Execute o comando:
+**⚠️ IMPORTANTE:** NÃO FECHE o terminal do Backend! Abra um novo terminal separado.
 
+### | Windows:
+1. Aperte `Windows + R`
+2. Digite `cmd` e aperte Enter
+3. Navegue até a pasta do projeto:
+```powershell
+cd C:\Users\SeuNome\Downloads\Cancer_de_mama
+```
+
+### | Linux:
+1. Aperte `Ctrl + Alt + T` para abrir um novo terminal
+2. Navegue até a pasta do projeto:
+```bash
+cd ~/Downloads/Cancer_de_mama
+```
+
+## * Passo 2: Entrar na Pasta do Frontend
+
+Agora vamos entrar especificamente na pasta do frontend:
+
+### | Windows:
+```powershell
+cd frontend
+```
+
+### | Linux:
+```bash
+cd frontend
+```
+
+## * Passo 3: Criar o Ambiente Virtual do Frontend
+
+### | Windows:
+```powershell
+python -m venv .venv_frontend
+```
+
+### | Linux:
+```bash
+python3 -m venv .venv_frontend
+```
+
+## * Passo 4: Ativar o Ambiente Virtual
+
+### | Windows:
+```powershell
+.\.venv_frontend\Scripts\activate
+```
+
+### | Linux:
+```bash
+source .venv_frontend/bin/activate
+```
+
+✅ **Como saber se funcionou?**  
+O terminal deve mostrar `(.venv_frontend)` no começo da linha.
+
+## * Passo 5: Instalar as Dependências do Frontend
+
+Com o ambiente ativo, instale o Django e outras bibliotecas:
+
+```bash
+pip install django pillow requests
+```
+
+* `django`: Framework principal do site
+* `pillow`: Para trabalhar com imagens (mamografias)
+* `requests`: Para comunicação com o backend
+
+## 🛠️ Passo 6: Configurar o Banco de Dados
+
+O Django precisa criar um pequeno banco de dados local.
+
+### | Windows:
+```powershell
+python manage.py migrate
+```
+
+### | Linux:
+```bash
+python3 manage.py migrate
+```
+
+✅ Se aparecerem várias linhas com **OK** verde, deu certo!
+
+## 4️⃣ Rodar o Projeto
+
+Agora vamos colocar tudo no ar! Você precisará de **2 terminais abertos**.
+
+## 🖥️ Terminal 1: Backend (API)
+
+1. Abra o primeiro terminal
+2. Navegue até a pasta raiz do projeto
+3. Ative o ambiente virtual do backend:
+
+### | Windows:
+```powershell
+cd C:\Users\SeuNome\Downloads\Cancer_de_mama
+.\.venv_backend\Scripts\activate
+```
+
+### | Linux:
+```bash
+cd ~/Downloads/Cancer_de_mama
+source .venv_backend/bin/activate
+```
+
+4. Inicie o servidor backend:
 ```bash
 uvicorn backend.api:app --reload
 ```
 
-Se tudo der certo, você verá uma mensagem verde parecida com esta:
+✅ Você deve ver uma mensagem verde:
+```
+INFO: Uvicorn running on http://127.0.0.1:8000
+```
 
-> `INFO: Uvicorn running on http://127.0.0.1:8000`
+**⚠️ MANTENHA ESTE TERMINAL ABERTO!** Se fechar, a API para de funcionar.
 
------
+## 🌐 Terminal 2: Frontend (Site)
 
-## 🧪 Como Testar?
+1. Abra um segundo terminal
+2. Navegue até a pasta do frontend
+3. Ative o ambiente virtual do frontend:
 
-1.  Não feche o terminal onde o servidor está rodando.
-2.  Abra seu navegador (Chrome, Firefox, etc).
-3.  Acesse o link: **[http://127.0.0.1:8000/docs](https://www.google.com/search?q=http://127.0.0.1:8000/docs)**
-4.  Você verá uma tela azul (Swagger UI).
-5.  Clique em **POST /predict** \> **Try it out** \> **Execute**.
-6.  Se aparecer **Code 200** e uma resposta com "Maligno" ou "Benigno", seu backend está perfeito\!
+### | Windows:
+```powershell
+cd C:\Users\SeuNome\Downloads\Cancer_de_mama\frontend
+.\.venv_frontend\Scripts\activate
+```
 
-## 👤 Equipe
+### | Linux:
+```bash
+cd ~/Downloads/Cancer_de_mama/frontend
+source .venv_frontend/bin/activate
+```
+
+4. Inicie o servidor Django (na porta 8001 para não conflitar com o backend):
+
+### | Windows:
+```powershell
+python manage.py runserver 8001
+```
+
+### | Linux:
+```bash
+python3 manage.py runserver 8001
+```
+
+✅ Você deve ver:
+```
+Starting development server at http://127.0.0.1:8001/
+```
+
+**⚠️ MANTENHA ESTE TERMINAL ABERTO TAMBÉM!**
+
+## 🧪 Acessar a Aplicação
+
+Agora você tem os dois servidores rodando:
+
+### Backend (API):
+Abra seu navegador e acesse: **http://127.0.0.1:8000/docs**
+
+Você verá a documentação interativa da API (Swagger UI - tela azul).
+
+### Frontend (Site):
+Abra outra aba do navegador e acesse: **http://127.0.0.1:8001**
+
+Você verá a interface de upload de imagens! 🎉
+
+
+## 5️⃣ Solução de Problemas
+
+## ❌ Erro: "python não é reconhecido como comando"
+
+### | Windows:
+Você esqueceu de marcar "Add Python to PATH" na instalação. Soluções:
+
+1. **Opção 1:** Reinstale o Python marcando a opção
+2. **Opção 2:** Use `py` no lugar de `python`:
+```powershell
+py -m venv .venv_backend
+```
+
+### | Linux:
+Use `python3` em vez de `python`:
+```bash
+python3 -m venv .venv_backend
+```
+
+## ❌ Erro: "Porta 8000 já está em uso"
+
+Outro programa está usando a porta 8000. Soluções:
+
+### Opção 1: Usar outra porta
+```bash
+uvicorn backend.api:app --reload --port 8002
+```
+
+### Opção 2: Encontrar e fechar o programa que usa a porta
+
+**Windows:**
+```powershell
+netstat -ano | findstr :8000
+```
+Anote o número PID e mate o processo:
+```powershell
+taskkill /PID numero_do_pid /F
+```
+
+**Linux:**
+```bash
+lsof -i :8000
+```
+Mate o processo:
+```bash
+kill -9 PID_numero
+```
+
+## ❌ Erro: "Modelo não encontrado"
+
+Você esqueceu de gerar o modelo. Volte ao [Passo 5 do Backend](#🧠-passo-5-gerar-o-modelo-de-ia).
+
+## ❌ Erro: "Module not found" ou "No module named..."
+
+Você não instalou as dependências corretamente. Certifique-se de:
+
+1. O ambiente virtual está ativo (você vê `(.venv_backend)` ou `(.venv_frontend)`)
+2. Rode os comandos `pip install` novamente
+
+## ❌ Erro de CSRF Token no Upload
+
+Se ao enviar imagens aparecer erro de CSRF:
+
+1. Limpe o cache do navegador
+2. Feche e abra o navegador novamente
+3. Acesse o site novamente
+
+## 🆘 Precisa de Ajuda?
+
+Se encontrou algum problema não listado aqui:
+
+1. Leia a mensagem de erro com atenção
+2. Copie a mensagem completa
+3. Procure no Google: "nome do erro + python django" ou "nome do erro + fastapi"
+4. Entre em contato com a equipe do projeto
+
+## 👥 Equipe
+
 - Marcos Paulo
 - Nicolas do Vale
 - Pedro Priori
 - Raica Lyra
 - Renato Nascimento
 - Victor Gabriel
+
+## 📝 Resumo Rápido dos Comandos
+
+## Iniciar o Backend:
+```bash
+# 1. Navegar até a pasta raiz
+cd caminho/para/Cancer_de_mama
+
+# 2. Ativar ambiente (Windows)
+.\.venv_backend\Scripts\activate
+
+# 2. Ativar ambiente (Linux)
+source .venv_backend/bin/activate
+
+# 3. Rodar servidor
+uvicorn backend.api:app --reload
+```
+
+## Iniciar o Frontend:
+```bash
+# 1. Navegar até a pasta frontend
+cd caminho/para/Cancer_de_mama/frontend
+
+# 2. Ativar ambiente (Windows)
+.\.venv_frontend\Scripts\activate
+
+# 2. Ativar ambiente (Linux)
+source .venv_frontend/bin/activate
+
+# 3. Rodar servidor (Windows)
+python manage.py runserver 8001
+
+# 3. Rodar servidor (Linux)
+python3 manage.py runserver 8001
+```
