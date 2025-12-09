@@ -105,7 +105,7 @@ def obter_predicao_api(caminho_imagem):
         confidence = probs[prediction_idx]
         
         label_real = classes[prediction_idx]
-        resultado_texto = "Maligno" if label_real == 'M' else "Benigno"
+        resultado_texto = "Benigno" if label_real == 'M' else "Maligno"
 
         return {
             'predicted_class': resultado_texto,
