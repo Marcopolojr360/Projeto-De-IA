@@ -1,325 +1,342 @@
-<!-- sidebar.html -->
 {% load static %}
 
 <aside class="sidebar" id="sidebar">
-  <div class="sidebar-header">
-    <div class="logo">
-      <h2>Meu Site</h2>
+    <div class="sidebar-header">
+        <div class="logo">
+            <h2>Meu Site</h2>
+        </div>
+        <button class="sidebar-toggle" id="sidebarToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
     </div>
-    <button class="sidebar-toggle" id="sidebarToggle">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-  </div>
 
-  <nav class="sidebar-nav">
-    <ul>
-      <li class="nav-item {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
-        <a href="{% url 'home' %}">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-            <polyline points="9 22 9 12 15 12 15 22"></polyline>
-          </svg>
-          <span>Início</span>
-        </a>
-      </li>
+    <nav class="sidebar-nav">
+        <ul>
+            <li class="nav-item {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+                <a href="{% url 'home' %}">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                    <span>Início</span>
+                </a>
+            </li>
 
-      <li class="nav-item {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
-        <a href="{% url 'dashboard' %}">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="3" width="7" height="7"></rect>
-            <rect x="14" y="3" width="7" height="7"></rect>
-            <rect x="14" y="14" width="7" height="7"></rect>
-            <rect x="3" y="14" width="7" height="7"></rect>
-          </svg>
-          <span>Dashboard</span>
-        </a>
-      </li>
+            <li class="nav-item {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+                <a href="{% url 'dashboard' %}">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="14" width="7" height="7"></rect>
+                        <rect x="3" y="14" width="7" height="7"></rect>
+                    </svg>
+                    <span>Dashboard</span>
+                </a>
+            </li>
 
-      <li class="nav-item {% if request.resolver_match.url_name == 'perfil' %}active{% endif %}">
-        <a href="{% url 'perfil' %}">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-            <circle cx="12" cy="7" r="4"></circle>
-          </svg>
-          <span>Perfil</span>
-        </a>
-      </li>
+            <li class="nav-item {% if request.resolver_match.url_name == 'perfil' %}active{% endif %}">
+                <a href="{% url 'perfil' %}">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    <span>Perfil</span>
+                </a>
+            </li>
 
-      <li class="nav-item {% if request.resolver_match.url_name == 'configuracoes' %}active{% endif %}">
-        <a href="{% url 'configuracoes' %}">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="3"></circle>
-            <path d="M12 1v6m0 6v6m8.66-14.66l-4.24 4.24M9.17 14.83l-4.24 4.24M23 12h-6m-6 0H1m20.66 8.66l-4.24-4.24M9.17 9.17L4.93 4.93"></path>
-          </svg>
-          <span>Configurações</span>
-        </a>
-      </li>
-    </ul>
+            <li class="nav-item {% if request.resolver_match.url_name == 'configuracoes' %}active{% endif %}">
+                <a href="{% url 'configuracoes' %}">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M12 1v6m0 6v6m8.66-14.66l-4.24 4.24M9.17 14.83l-4.24 4.24M23 12h-6m-6 0H1m20.66 8.66l-4.24-4.24M9.17 9.17L4.93 4.93"></path>
+                    </svg>
+                    <span>Configurações</span>
+                </a>
+            </li>
+        </ul>
 
-    <div class="sidebar-divider"></div>
+        <div class="sidebar-divider"></div>
 
-    <ul>
-      {% if user.is_authenticated %}
-      <li class="nav-item">
-        <a href="{% url 'logout' %}">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-            <polyline points="16 17 21 12 16 7"></polyline>
-            <line x1="21" y1="12" x2="9" y2="12"></line>
-          </svg>
-          <span>Sair</span>
-        </a>
-      </li>
-      {% else %}
-      <li class="nav-item">
-        <a href="{% url 'login' %}">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
-            <polyline points="10 17 15 12 10 7"></polyline>
-            <line x1="15" y1="12" x2="3" y2="12"></line>
-          </svg>
-          <span>Entrar</span>
-        </a>
-      </li>
-      {% endif %}
-    </ul>
-  </nav>
+        <ul>
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+                <a href="{% url 'logout' %}">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <polyline points="16 17 21 12 16 7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                    <span>Sair</span>
+                </a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+                <a href="{% url 'login' %}">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                        <polyline points="10 17 15 12 10 7"></polyline>
+                        <line x1="15" y1="12" x2="3" y2="12"></line>
+                    </svg>
+                    <span>Entrar</span>
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
 
-  {% if user.is_authenticated %}
-  <div class="sidebar-footer">
-    <div class="user-info">
-      <div class="user-avatar">
-        {% if user.profile.avatar %}
-          <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}">
-        {% else %}
-          <span>{{ user.username|first|upper }}</span>
-        {% endif %}
-      </div>
-      <div class="user-details">
-        <p class="user-name">{{ user.get_full_name|default:user.username }}</p>
-        <p class="user-email">{{ user.email }}</p>
-      </div>
+    {% if user.is_authenticated %}
+    <div class="sidebar-footer">
+        <div class="user-info">
+            <div class="user-avatar">
+                {% if user.profile.avatar %}
+                    <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}">
+                {% else %}
+                    <span>{{ user.username|first|upper }}</span>
+                {% endif %}
+            </div>
+            <div class="user-details">
+                <p class="user-name">{{ user.get_full_name|default:user.username }}</p>
+                <p class="user-email">{{ user.email }}</p>
+            </div>
+        </div>
     </div>
-  </div>
-  {% endif %}
+    {% endif %}
 </aside>
 
 <style>
+/* Variáveis CSS (Custom Properties) para fácil manutenção de cores e dimensões */
 :root {
-  --sidebar-width: 260px;
-  --sidebar-bg: #1e293b;
-  --sidebar-text: #e2e8f0;
-  --sidebar-hover: #334155;
-  --sidebar-active: #3b82f6;
-  --sidebar-border: #334155;
+    --sidebar-width: 260px;
+    --sidebar-bg: #1e293b;         /* Fundo da Sidebar */
+    --sidebar-text: #e2e8f0;       /* Cor do texto principal */
+    --sidebar-hover: #334155;      /* Cor de fundo ao passar o mouse */
+    --sidebar-active: #3b82f6;     /* Cor de destaque para o item ativo (azul) */
+    --sidebar-border: #334155;     /* Cor das linhas divisoras */
 }
 
+/* Reset CSS */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
+/* Estilo principal da Sidebar */
 .sidebar {
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: var(--sidebar-width);
-  height: 100vh;
-  background: var(--sidebar-bg);
-  color: var(--sidebar-text);
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.3s ease;
-  z-index: 1000;
-  overflow-y: auto;
+    position: fixed; /* Fixa na tela */
+    left: 0;
+    top: 0;
+    width: var(--sidebar-width);
+    height: 100vh;
+    background: var(--sidebar-bg);
+    color: var(--sidebar-text);
+    display: flex;
+    flex-direction: column; /* Organiza os itens (header, nav, footer) verticalmente */
+    transition: transform 0.3s ease; /* Transição para o efeito de deslizar (mobile) */
+    z-index: 1000;
+    overflow-y: auto; /* Permite rolagem se o conteúdo for maior que a tela */
 }
 
+/* Estilo do Cabeçalho */
 .sidebar-header {
-  padding: 1.5rem;
-  border-bottom: 1px solid var(--sidebar-border);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--sidebar-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
+/* Estilo do Título/Logo */
 .logo h2 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--sidebar-text);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--sidebar-text);
 }
 
+/* Botão de Toggle: Escondido por padrão no desktop */
 .sidebar-toggle {
-  display: none;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0.5rem;
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
 }
 
+/* Estilo das barras do ícone de menu hambúrguer */
 .sidebar-toggle span {
-  display: block;
-  width: 24px;
-  height: 2px;
-  background: var(--sidebar-text);
-  margin: 5px 0;
-  transition: 0.3s;
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--sidebar-text);
+    margin: 5px 0;
+    transition: 0.3s;
 }
 
+/* Área de Navegação */
 .sidebar-nav {
-  flex: 1;
-  padding: 1rem 0;
+    flex: 1; /* Ocupa o espaço disponível restante */
+    padding: 1rem 0;
 }
 
 .sidebar-nav ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
 .nav-item {
-  margin: 0.25rem 0;
+    margin: 0.25rem 0;
 }
 
+/* Estilo do Link de Navegação */
 .nav-item a {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.75rem 1.5rem;
-  color: var(--sidebar-text);
-  text-decoration: none;
-  transition: all 0.2s;
-  position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem; /* Espaçamento entre ícone e texto */
+    padding: 0.75rem 1.5rem;
+    color: var(--sidebar-text);
+    text-decoration: none;
+    transition: all 0.2s;
+    position: relative;
 }
 
 .nav-item a:hover {
-  background: var(--sidebar-hover);
+    background: var(--sidebar-hover);
 }
 
+/* Estilo para o item de navegação ATIVO */
 .nav-item.active a {
-  background: var(--sidebar-hover);
-  color: var(--sidebar-active);
+    background: var(--sidebar-hover);
+    color: var(--sidebar-active); /* Texto do item ativo com a cor de destaque (azul) */
 }
 
+/* Barra vertical de destaque para o item ATIVO */
 .nav-item.active a::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 3px;
-  background: var(--sidebar-active);
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--sidebar-active);
 }
 
 .nav-item svg {
-  flex-shrink: 0;
+    flex-shrink: 0;
 }
 
+/* Estilo do Divisor */
 .sidebar-divider {
-  height: 1px;
-  background: var(--sidebar-border);
-  margin: 1rem 1.5rem;
+    height: 1px;
+    background: var(--sidebar-border);
+    margin: 1rem 1.5rem;
 }
 
+/* Estilo do Rodapé */
 .sidebar-footer {
-  padding: 1rem 1.5rem;
-  border-top: 1px solid var(--sidebar-border);
-  margin-top: auto;
+    padding: 1rem 1.5rem;
+    border-top: 1px solid var(--sidebar-border);
+    margin-top: auto; /* Empurra o footer para o final da sidebar */
 }
 
+/* Informações do Usuário no Rodapé */
 .user-info {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
 }
 
+/* Avatar do Usuário */
 .user-avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: var(--sidebar-active);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
-  overflow: hidden;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--sidebar-active);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    overflow: hidden;
 }
 
 .user-avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .user-details {
-  flex: 1;
-  min-width: 0;
+    flex: 1;
+    min-width: 0;
 }
 
 .user-name {
-  font-weight: 600;
-  font-size: 0.875rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    font-weight: 600;
+    font-size: 0.875rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Adiciona '...' se o nome for muito longo */
 }
 
 .user-email {
-  font-size: 0.75rem;
-  color: #94a3b8;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    font-size: 0.75rem;
+    color: #94a3b8;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-/* Responsivo */
+/* Responsividade: Estilos para Mobile/Tablet (max-width: 768px) */
 @media (max-width: 768px) {
-  .sidebar {
-    transform: translateX(-100%);
-  }
+    .sidebar {
+        transform: translateX(-100%); /* Esconde a sidebar fora da tela por padrão */
+    }
 
-  .sidebar.active {
-    transform: translateX(0);
-  }
+    .sidebar.active {
+        transform: translateX(0); /* Traz a sidebar de volta para a tela quando ativa */
+    }
 
-  .sidebar-toggle {
-    display: block;
-  }
+    .sidebar-toggle {
+        display: block; /* Mostra o botão de menu (hambúrguer) */
+    }
 
-  /* Overlay quando sidebar está aberta */
-  .sidebar.active::after {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: var(--sidebar-width);
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-  }
+    /* Overlay escuro que cobre o conteúdo quando a sidebar está aberta em mobile */
+    .sidebar.active::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: var(--sidebar-width); /* Começa após a largura da sidebar */
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5); /* Efeito de escurecimento */
+    }
 }
 </style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  const sidebar = document.getElementById('sidebar');
-  const toggle = document.getElementById('sidebarToggle');
-  
-  if (toggle) {
-    toggle.addEventListener('click', function(e) {
-      e.stopPropagation();
-      sidebar.classList.toggle('active');
-    });
-  }
-
-  // Fecha sidebar ao clicar fora (mobile)
-  document.addEventListener('click', function(e) {
-    if (window.innerWidth <= 768) {
-      if (!sidebar.contains(e.target)) {
-        sidebar.classList.remove('active');
-      }
+    // Seleciona a barra lateral e o botão de toggle pelos IDs
+    const sidebar = document.getElementById('sidebar');
+    const toggle = document.getElementById('sidebarToggle');
+    
+    // 1. Funcionalidade de Abrir/Fechar a Sidebar pelo botão
+    if (toggle) {
+        toggle.addEventListener('click', function(e) {
+            e.stopPropagation(); // Impede a propagação do clique
+            sidebar.classList.toggle('active'); // Alterna a classe 'active'
+        });
     }
-  });
+
+    // 2. Funcionalidade de Fechar a Sidebar ao clicar fora (apenas em mobile)
+    document.addEventListener('click', function(e) {
+        if (window.innerWidth <= 768) { // Verifica se é um dispositivo móvel
+            // Verifica se o clique não foi no elemento sidebar nem em seus filhos
+            if (!sidebar.contains(e.target)) {
+                sidebar.classList.remove('active'); // Fecha a sidebar
+            }
+        }
+    });
 });
 </script>

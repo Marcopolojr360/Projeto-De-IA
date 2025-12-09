@@ -1,11 +1,10 @@
 {% extends 'base.html' %}
-
 {% block title %}Upload de Imagens - Cancer de Mama{% endblock %}
-
 {% block extra_css %}
 <style>
+    /* Container principal para o formulário, centralizado na tela */
     .container {
-        background: #1E293B;
+        background: #1E293B; /* Fundo escuro do container */
         border-radius: 20px;
         box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
         padding: 40px;
@@ -13,6 +12,7 @@
         width: 100%;
     }
 
+    /* Estilo do título principal */
     h1 {
         text-align: center;
         color: #f5f6f8;
@@ -20,6 +20,7 @@
         font-size: 28px;
     }
 
+    /* Estilo do subtítulo/instrução */
     .subtitle {
         text-align: center;
         color: #b5b2b2;
@@ -39,8 +40,9 @@
         font-size: 16px;
     }
 
+    /* Área clicável para arrastar e soltar/selecionar arquivos */
     .upload-area {
-        border: 2px dashed #667eea;
+        border: 2px dashed #667eea; /* Borda tracejada azul */
         border-radius: 12px;
         padding: 30px;
         text-align: center;
@@ -49,15 +51,17 @@
         background: #f8f9ff;
     }
 
+    /* Efeito visual ao passar o mouse */
     .upload-area:hover {
         border-color: #764ba2;
         background: #f0f2ff;
         transform: translateY(-2px);
     }
 
+    /* Estilo quando um arquivo é carregado (muda a cor da borda/fundo) */
     .upload-area.has-file {
-        border-color: #1f936c;
-        background: #f0fdf4;
+        border-color: #1f936c; /* Borda verde */
+        background: #f0fdf4; /* Fundo verde claro */
     }
 
     .upload-icon {
@@ -70,17 +74,20 @@
         font-size: 14px;
     }
 
+    /* Nome do arquivo carregado */
     .file-name {
         margin-top: 10px;
-        color: #1f936c;
+        color: #1f936c; /* Cor do texto verde */
         font-weight: 600;
         word-break: break-all;
     }
 
+    /* Oculta o input de arquivo padrão, pois usamos o div 'upload-area' para interagir */
     input[type="file"] {
         display: none;
     }
 
+    /* Container para a pré-visualização da imagem */
     .preview-container {
         margin-top: 15px;
         text-align: center;
@@ -93,9 +100,11 @@
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
 
+    /* Botão de Envio */
     .btn-submit {
         width: 100%;
         padding: 16px;
+        /* Gradiente de fundo */
         background: linear-gradient(135deg, #152263 0%, #240544 100%);
         color: white;
         border: none;
@@ -107,52 +116,60 @@
         margin-top: 30px;
     }
 
+    /* Efeito de hover */
     .btn-submit:hover:not(:disabled) {
         transform: translateY(-2px);
         background: #360a63;
     }
+    /* Estilo para o botão desabilitado */
     .btn-submit:disabled {
         opacity: 0.6;
         cursor: not-allowed;
     }
 
+    /* Estilo base para mensagens de feedback (sucesso/erro) */
     .message {
         margin-top: 20px;
         padding: 15px;
         border-radius: 8px;
         text-align: center;
         font-weight: 500;
-        display: none;
+        display: none; /* Escondido por padrão */
     }
 
+    /* Estilo de mensagem de sucesso (verde) */
     .message.success {
         background: #d1fae5;
         color: #065f46;
         border: 1px solid #10b981;
     }
 
+    /* Estilo de mensagem de erro (vermelho) */
     .message.error {
         background: #fee2e2;
         color: #991b1b;
         border: 1px solid #ef4444;
     }
 
+    /* Seção de Loading/Carregamento */
     .loading {
-        display: none;
+        display: none; /* Escondido por padrão */
         text-align: center;
         margin-top: 20px;
     }
 
+    /* Estilo do Spinner (animação de carregamento) */
     .spinner {
         border: 3px solid #f3f3f3;
         border-top: 3px solid #667eea;
         border-radius: 50%;
         width: 40px;
         height: 40px;
-        animation: spin 1s linear infinite;
+        animation: spin 1s linear infinite; /* Aplica a animação de rotação */
         margin: 0 auto;
     }
 
+    /* Definição da animação de rotação */
     @keyframes spin {
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
@@ -204,91 +221,109 @@
 
 {% block extra_js %}
 <script>
+    // Função genérica para configurar o comportamento de um campo de input de imagem
     function setupImageInput(inputId, areaId, fileNameId, previewId) {
         const input = document.getElementById(inputId);
         const area = document.getElementById(areaId);
         const fileName = document.getElementById(fileNameId);
         const preview = document.getElementById(previewId);
 
+        // Adiciona um listener para quando o arquivo é selecionado
         input.addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
-                area.classList.add('has-file');
-                fileName.textContent = `✓ ${file.name}`;
+                area.classList.add('has-file'); // Adiciona a classe para mudar o estilo (verde)
+                fileName.textContent = `✓ ${file.name}`; // Exibe o nome do arquivo
                 
+                // Configura o leitor de arquivos para pré-visualização
                 const reader = new FileReader();
                 reader.onload = function(e) {
+                    // Insere a tag <img> com a URL da imagem no container de preview
                     preview.innerHTML = `<img src="${e.target.result}" class="preview-image" alt="Preview">`;
                 };
-                reader.readAsDataURL(file);
+                reader.readAsDataURL(file); // Lê o arquivo como URL de dados (base64)
             }
         });
     }
 
+    // Chama a função para configurar os inputs de Imagem 1 e Imagem 2
     setupImageInput('image1', 'uploadArea1', 'fileName1', 'preview1');
     setupImageInput('image2', 'uploadArea2', 'fileName2', 'preview2');
 
+    // Listener para o envio do formulário (substitui o envio padrão do HTML)
     document.getElementById('uploadForm').addEventListener('submit', async function(e) {
-        e.preventDefault();
+        e.preventDefault(); // Impede o envio tradicional (recarregamento de página)
 
+        // Seleciona os arquivos e elementos de controle
         const image1 = document.getElementById('image1').files[0];
         const image2 = document.getElementById('image2').files[0];
         const submitBtn = document.getElementById('submitBtn');
         const loading = document.getElementById('loading');
         const message = document.getElementById('message');
 
+        // Validação: verifica se ambas as imagens foram selecionadas
         if (!image1 || !image2) {
             showMessage('Por favor, selecione ambas as imagens', 'error');
             return;
         }
 
+        // Cria o objeto FormData para empacotar os arquivos e enviá-los via POST
         const formData = new FormData();
         formData.append('image1', image1);
         formData.append('image2', image2);
         
-        // Adiciona o CSRF token
+        // Obtém o token CSRF (Cross-Site Request Forgery) do input escondido no formulário
         const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
+        // Desabilita o botão e exibe o loading
         submitBtn.disabled = true;
         loading.style.display = 'block';
         message.style.display = 'none';
 
         try {
+            // Usa a API Fetch para enviar os dados para a URL '/upload/'
             const response = await fetch('/upload/', {
                 method: 'POST',
                 body: formData,
                 headers: {
+                    // Adiciona o token CSRF ao cabeçalho para autenticação do Django
                     'X-CSRFToken': csrftoken
                 }
             });
 
+            // Converte a resposta JSON do servidor
             const data = await response.json();
             
-            console.log('Resposta do servidor:', data); // Debug
+            console.log('Resposta do servidor:', data); // Log para depuração
 
             if (data.success) {
                 showMessage(data.message, 'success');
                 
-                // Redireciona após 1 segundo
+                // Redireciona para a página de resultados após um pequeno atraso
                 setTimeout(() => {
-                    console.log('Redirecionando para:', data.redirect_url); // Debug
+                    console.log('Redirecionando para:', data.redirect_url); // Log para depuração
                     window.location.href = data.redirect_url;
                 }, 1000);
             } else {
+                // Exibe mensagem de erro retornada pelo servidor
                 showMessage(data.message || 'Erro ao processar as imagens', 'error');
             }
         } catch (error) {
+            // Captura e exibe erros de rede ou processamento
             showMessage('Erro ao enviar imagens. Tente novamente.', 'error');
             console.error('Erro:', error);
         } finally {
+            // Reabilita o botão e esconde o loading (exceto se o redirecionamento já tiver começado)
             submitBtn.disabled = false;
             loading.style.display = 'none';
         }
     });
 
+    // Função auxiliar para exibir mensagens de feedback
     function showMessage(text, type) {
         const message = document.getElementById('message');
         message.textContent = text;
+        // Define a classe correta (success ou error)
         message.className = `message ${type}`;
         message.style.display = 'block';
     }

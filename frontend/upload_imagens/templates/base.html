@@ -1,55 +1,61 @@
-<!-- templates/base.html -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Cancer de Mama{% endblock %}</title>
+
     <style>
+        /* Reset CSS básico: remove margens e paddings padrão do navegador */
         * {
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
+            box-sizing: border-box; /* Garante que padding e borda não aumentem o tamanho total do elemento */
         }
 
+        /* Estilo do corpo da página (fundo e fonte) */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* Gradiente de fundo escuro para a página */
             background: linear-gradient(135deg, #0b1c63 0%, #3d0d6d 100%);
-            min-height: 100vh;
+            min-height: 100vh; /* Garante que o corpo ocupe pelo menos 100% da altura da viewport */
         }
 
-        /* Estilos da Sidebar */
+        /* Estilos da Sidebar (Barra Lateral Fixa) */
         .sidebar {
-            position: fixed;
+            position: fixed; /* Fixa a barra lateral na tela */
             left: 0;
             top: 0;
             width: 260px;
             height: 100vh;
-            background: #1e293b;
-            color: #e2e8f0;
+            background: #1e293b; /* Cor de fundo escura */
+            color: #e2e8f0; /* Cor do texto claro */
             display: flex;
             flex-direction: column;
-            transition: transform 0.3s ease;
-            z-index: 1000;
-            overflow-y: auto;
+            transition: transform 0.3s ease; /* Transição suave para o efeito de deslizar (mobile) */
+            z-index: 1000; /* Garante que fique acima de outros elementos */
+            overflow-y: auto; /* Adiciona barra de rolagem se o conteúdo for longo */
         }
 
+        /* Estilos do cabeçalho da Sidebar */
         .sidebar-header {
             padding: 1.5rem;
             border-bottom: 1px solid #334155;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: space-between; /* Espaça o logo e o botão de toggle (se visível) */
         }
 
+        /* Estilo do Logo/Título */
         .logo h2 {
             font-size: 1.5rem;
             font-weight: 700;
             color: #e2e8f0;
         }
 
+        /* Botão para abrir/fechar a sidebar em mobile */
         .sidebar-toggle {
-            display: none;
+            display: none; /* Escondido por padrão, só aparece em mobile */
             background: none;
             border: none;
             cursor: pointer;
@@ -65,8 +71,9 @@
             transition: 0.3s;
         }
 
+        /* Estilos da navegação (links) */
         .sidebar-nav {
-            flex: 1;
+            flex: 1; /* Ocupa o espaço restante na coluna */
             padding: 1rem 0;
         }
 
@@ -90,14 +97,16 @@
         }
 
         .nav-item a:hover {
-            background: #334155;
+            background: #334155; /* Fundo mais escuro ao passar o mouse */
         }
 
+        /* Estilo para o item de navegação ATIVO (página atual) */
         .nav-item.active a {
             background: #334155;
-            color: #0f264a;
+            color: #0f264a; /* Cor do texto no item ativo */
         }
 
+        /* Barra de destaque vertical para o item ATIVO */
         .nav-item.active a::before {
             content: '';
             position: absolute;
@@ -105,16 +114,16 @@
             top: 0;
             bottom: 0;
             width: 3px;
-            background: #0a2653;
+            background: #0a2653; /* Cor do destaque (azul escuro) */
         }
 
         .nav-item svg {
-            flex-shrink: 0;
+            flex-shrink: 0; /* Impede que o ícone SVG encolha */
         }
 
         /* Área de conteúdo principal */
         .main-content {
-            margin-left: 260px;
+            margin-left: 260px; /* Cria espaço para a sidebar de 260px */
             min-height: 100vh;
             padding: 20px;
             display: flex;
@@ -122,41 +131,40 @@
             align-items: center;
         }
 
-        /* Responsivo */
+        /* Responsividade: Estilos aplicados a telas com largura máxima de 768px (Mobile/Tablet) */
         @media (max-width: 768px) {
             .sidebar {
-                transform: translateX(-100%);
+                transform: translateX(-100%); /* Esconde a sidebar fora da tela por padrão */
             }
 
             .sidebar.active {
-                transform: translateX(0);
+                transform: translateX(0); /* Traz a sidebar de volta para a tela quando ativa */
             }
 
             .sidebar-toggle {
-                display: block;
+                display: block; /* Mostra o botão de menu (hambúrguer) */
             }
 
             .main-content {
-                margin-left: 0;
+                margin-left: 0; /* Remove o espaço de margem em mobile para ocupar 100% da largura */
             }
 
+            /* Overlay escuro que cobre o conteúdo quando a sidebar está aberta em mobile */
             .sidebar.active::after {
                 content: '';
                 position: fixed;
                 top: 0;
-                left: 260px;
+                left: 260px; /* Começa após a largura da sidebar */
                 right: 0;
                 bottom: 0;
-                background: rgba(0, 0, 0, 0.5);
+                background: rgba(0, 0, 0, 0.5); /* Efeito de escurecimento */
             }
         }
-
-        
     </style>
-</head>
+    </head>
 {% block extra_css %}{% endblock %}
+
 <body>
-    <!-- Sidebar -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <div class="logo">
@@ -204,33 +212,38 @@
         </nav>
     </aside>
 
-    <!-- Conteúdo Principal -->
     <main class="main-content">
         {% block content %}{% endblock %}
     </main>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Seleciona a barra lateral e o botão de toggle pelo ID
             const sidebar = document.getElementById('sidebar');
             const toggle = document.getElementById('sidebarToggle');
-            
+
+            // Verifica se o botão de toggle existe
             if (toggle) {
+                // Adiciona ouvinte de evento para o clique no botão de toggle
                 toggle.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    sidebar.classList.toggle('active');
+                    e.stopPropagation(); // Evita que o clique se propague para o documento
+                    sidebar.classList.toggle('active'); // Alterna a classe 'active' (abre/fecha a sidebar)
                 });
             }
 
+            // Ouve cliques em todo o documento
             document.addEventListener('click', function(e) {
+                // Esta funcionalidade só se aplica em telas menores (mobile)
                 if (window.innerWidth <= 768) {
+                    // Verifica se o clique não foi dentro da sidebar
                     if (!sidebar.contains(e.target)) {
+                        // Fecha a sidebar, removendo a classe 'active'
                         sidebar.classList.remove('active');
                     }
                 }
             });
         });
     </script>
-
     {% block extra_js %}{% endblock %}
 </body>
 </html>
