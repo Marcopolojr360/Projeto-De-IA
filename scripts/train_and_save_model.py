@@ -1,25 +1,20 @@
 import pandas as pd
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.tree import DecisionTreeClassifier
 from sklearn.preprocessing import LabelEncoder
 import pickle
 import os
 
 def train_and_save():
     # 1. Definir caminhos baseados na localização deste script
-    # O script está em: Projeto-De-IA/scripts/
-    # Queremos salvar em: Projeto-De-IA/backend/model/
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    base_dir = os.path.dirname(current_dir)
     
-    current_dir = os.path.dirname(os.path.abspath(__file__)) # .../scripts
-    base_dir = os.path.dirname(current_dir) # .../Projeto-De-IA
-    
-    # Define a pasta de destino no backend
     model_dir = os.path.join(base_dir, "backend", "model")
-    os.makedirs(model_dir, exist_ok=True) # Cria a pasta se não existir
+    os.makedirs(model_dir, exist_ok=True)
     
     output_path = os.path.join(model_dir, "breast_cancer_model.pkl")
-    csv_path = os.path.join(current_dir, "data.csv") # Assume que o csv está na pasta scripts
+    csv_path = os.path.join(current_dir, "data.csv")
     
-    # Verifica se o CSV existe
     if not os.path.exists(csv_path):
         print(f"Erro: O arquivo de dados não foi encontrado em: {csv_path}")
         return
@@ -40,15 +35,24 @@ def train_and_save():
     le = LabelEncoder()
     y = le.fit_transform(y_raw)
     
-    # Treinar Modelo
-    print("Treinando modelo Random Forest...")
-    model = RandomForestClassifier(n_estimators=100, random_state=42)
+    # Treinar Modelo Decision Tree
+    print("Treinando modelo Decision Tree...")
+    model = DecisionTreeClassifier(
+        max_depth=10,
+        min_samples_split=5,
+        min_samples_leaf=2,
+        random_state=42
+    )
     model.fit(X, y)
+    
+    # Calcular acurácia no conjunto de treinamento
+    accuracy = model.score(X, y)
+    print(f"Acurácia no conjunto de treinamento: {accuracy * 100:.2f}%")
     
     # Preparar objeto para salvar (Modelo + Classes)
     data_to_save = {
         "model": model,
-        "classes": le.classes_ # Salva ['B', 'M'] para usar depois
+        "classes": le.classes_
     }
 
     # Salvar no backend

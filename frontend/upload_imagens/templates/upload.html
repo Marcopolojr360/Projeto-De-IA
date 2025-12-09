@@ -1,18 +1,16 @@
 {% extends 'base.html' %}
-{% block title %}Upload de Imagens - Cancer de Mama{% endblock %}
+{% block title %}Análise de Câncer de Mama{% endblock %}
 {% block extra_css %}
 <style>
-    /* Container principal para o formulário, centralizado na tela */
     .container {
-        background: #1E293B; /* Fundo escuro do container */
+        background: #1E293B;
         border-radius: 20px;
         box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
         padding: 40px;
-        max-width: 600px;
+        max-width: 1200px;
         width: 100%;
     }
 
-    /* Estilo do título principal */
     h1 {
         text-align: center;
         color: #f5f6f8;
@@ -20,7 +18,6 @@
         font-size: 28px;
     }
 
-    /* Estilo do subtítulo/instrução */
     .subtitle {
         text-align: center;
         color: #b5b2b2;
@@ -28,83 +25,107 @@
         font-size: 14px;
     }
 
-    .upload-section {
+    .button-group {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        margin-bottom: 30px;
+        flex-wrap: wrap;
+    }
+
+    .preset-btn {
+        padding: 12px 30px;
+        border: none;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .btn-benigno {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        color: white;
+    }
+
+    .btn-benigno:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-maligno {
+        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        color: white;
+    }
+
+    .btn-maligno:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(239, 68, 68, 0.3);
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
         margin-bottom: 25px;
     }
 
-    .upload-label {
-        display: block;
-        font-weight: 600;
-        color: #ffffff;
-        margin-bottom: 10px;
-        font-size: 16px;
-    }
-
-    /* Área clicável para arrastar e soltar/selecionar arquivos */
-    .upload-area {
-        border: 2px dashed #667eea; /* Borda tracejada azul */
+    .form-section {
+        background: #2D3748;
         border-radius: 12px;
-        padding: 30px;
-        text-align: center;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        background: #f8f9ff;
+        padding: 20px;
     }
 
-    /* Efeito visual ao passar o mouse */
-    .upload-area:hover {
-        border-color: #764ba2;
-        background: #f0f2ff;
-        transform: translateY(-2px);
-    }
-
-    /* Estilo quando um arquivo é carregado (muda a cor da borda/fundo) */
-    .upload-area.has-file {
-        border-color: #1f936c; /* Borda verde */
-        background: #f0fdf4; /* Fundo verde claro */
-    }
-
-    .upload-icon {
-        font-size: 48px;
-        margin-bottom: 10px;
-    }
-
-    .upload-text {
-        color: #464646;
-        font-size: 14px;
-    }
-
-    /* Nome do arquivo carregado */
-    .file-name {
-        margin-top: 10px;
-        color: #1f936c; /* Cor do texto verde */
+    .section-title {
+        color: #60a5fa;
+        font-size: 18px;
         font-weight: 600;
-        word-break: break-all;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
     }
 
-    /* Oculta o input de arquivo padrão, pois usamos o div 'upload-area' para interagir */
-    input[type="file"] {
-        display: none;
+    .form-group {
+        margin-bottom: 15px;
     }
 
-    /* Container para a pré-visualização da imagem */
-    .preview-container {
-        margin-top: 15px;
-        text-align: center;
+    .form-label {
+        display: block;
+        color: #e2e8f0;
+        font-size: 14px;
+        margin-bottom: 6px;
+        font-weight: 500;
     }
 
-    .preview-image {
-        max-width: 100%;
-        max-height: 200px;
+    .form-input {
+        width: 100%;
+        padding: 10px 12px;
+        background: #1a202c;
+        border: 1px solid #4a5568;
         border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        color: #e2e8f0;
+        font-size: 14px;
+        transition: all 0.3s;
     }
 
-    /* Botão de Envio */
+    .form-input:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .form-input::-webkit-inner-spin-button,
+    .form-input::-webkit-outer-spin-button {
+        opacity: 1;
+    }
+
     .btn-submit {
         width: 100%;
         padding: 16px;
-        /* Gradiente de fundo */
         background: linear-gradient(135deg, #152263 0%, #240544 100%);
         color: white;
         border: none;
@@ -113,219 +134,439 @@
         font-weight: 600;
         cursor: pointer;
         transition: all 0.3s ease;
-        margin-top: 30px;
+        margin-top: 20px;
     }
 
-    /* Efeito de hover */
     .btn-submit:hover:not(:disabled) {
         transform: translateY(-2px);
-        background: #360a63;
+        background: linear-gradient(135deg, #1e3a8a 0%, #360a63 100%);
+        box-shadow: 0 8px 20px rgba(21, 34, 99, 0.4);
     }
-    /* Estilo para o botão desabilitado */
+
     .btn-submit:disabled {
         opacity: 0.6;
         cursor: not-allowed;
     }
 
-    /* Estilo base para mensagens de feedback (sucesso/erro) */
-    .message {
-        margin-top: 20px;
-        padding: 15px;
-        border-radius: 8px;
-        text-align: center;
-        font-weight: 500;
-        display: none; /* Escondido por padrão */
-    }
-
-    /* Estilo de mensagem de sucesso (verde) */
-    .message.success {
-        background: #d1fae5;
-        color: #065f46;
-        border: 1px solid #10b981;
-    }
-
-    /* Estilo de mensagem de erro (vermelho) */
-    .message.error {
-        background: #fee2e2;
-        color: #991b1b;
-        border: 1px solid #ef4444;
-    }
-
-    /* Seção de Loading/Carregamento */
     .loading {
-        display: none; /* Escondido por padrão */
+        display: none;
         text-align: center;
         margin-top: 20px;
     }
 
-    /* Estilo do Spinner (animação de carregamento) */
     .spinner {
         border: 3px solid #f3f3f3;
         border-top: 3px solid #667eea;
         border-radius: 50%;
         width: 40px;
         height: 40px;
-        animation: spin 1s linear infinite; /* Aplica a animação de rotação */
+        animation: spin 1s linear infinite;
         margin: 0 auto;
     }
 
-    /* Definição da animação de rotação */
     @keyframes spin {
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 768px) {
+        .container {
+            padding: 25px;
+            margin: 10px;
+        }
+
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .button-group {
+            flex-direction: column;
+        }
+
+        .preset-btn {
+            width: 100%;
+            justify-content: center;
+        }
     }
 </style>
 {% endblock %}
 
 {% block content %}
 <div class="container">
-    <h1>Teste de Cancer de mama</h1>
-    <p class="subtitle">Selecione duas imagens para enviar</p>
+    <h1>Análise de Câncer de Mama</h1>
+    <p class="subtitle">Insira os dados das características celulares para análise</p>
 
-    <form id="uploadForm">
+    <div class="button-group">
+        <button class="preset-btn btn-benigno" onclick="preencherDadosBenignos()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            Preencher Exemplo Benigno
+        </button>
+        <button class="preset-btn btn-maligno" onclick="preencherDadosMalignos()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            Preencher Exemplo Maligno
+        </button>
+    </div>
+
+    <form id="analysisForm">
         {% csrf_token %}
         
-        <div class="upload-section">
-            <label class="upload-label">Primeira Imagem</label>
-            <div class="upload-area" id="uploadArea1" onclick="document.getElementById('image1').click()">
-                <div class="upload-icon">+</div>
-                <div class="upload-text">Clique para selecionar a imagem</div>
-                <div class="file-name" id="fileName1"></div>
-                <div class="preview-container" id="preview1"></div>
+        <div class="form-grid">
+            <!-- Médias -->
+            <div class="form-section">
+                <h3 class="section-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="16" x2="12" y2="12"></line>
+                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                    </svg>
+                    Médias
+                </h3>
+                
+                <div class="form-group">
+                    <label class="form-label">Raio Médio</label>
+                    <input type="number" step="any" min="0" class="form-input" id="mean_radius" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Textura Média</label>
+                    <input type="number" step="any" min="0" class="form-input" id="mean_texture" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Perímetro Médio</label>
+                    <input type="number" step="any" min="0" class="form-input" id="mean_perimeter" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Área Média</label>
+                    <input type="number" step="any" min="0" class="form-input" id="mean_area" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Suavidade Média</label>
+                    <input type="number" step="any" min="0" class="form-input" id="mean_smoothness" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Compacidade Média</label>
+                    <input type="number" step="any" min="0" class="form-input" id="mean_compactness" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Concavidade Média</label>
+                    <input type="number" step="any" min="0" class="form-input" id="mean_concavity" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Pontos Côncavos Médios</label>
+                    <input type="number" step="any" min="0" class="form-input" id="mean_concave_points" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Simetria Média</label>
+                    <input type="number" step="any" min="0" class="form-input" id="mean_symmetry" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Dimensão Fractal Média</label>
+                    <input type="number" step="any" min="0" class="form-input" id="mean_fractal_dimension" required>
+                </div>
             </div>
-            <input type="file" id="image1" name="image1" accept="image/*" required>
+
+            <!-- Erros -->
+            <div class="form-section">
+                <h3 class="section-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                    </svg>
+                    Erros Padrão
+                </h3>
+                
+                <div class="form-group">
+                    <label class="form-label">Erro do Raio</label>
+                    <input type="number" step="any" min="0" class="form-input" id="radius_error" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Erro da Textura</label>
+                    <input type="number" step="any" min="0" class="form-input" id="texture_error" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Erro do Perímetro</label>
+                    <input type="number" step="any" min="0" class="form-input" id="perimeter_error" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Erro da Área</label>
+                    <input type="number" step="any" min="0" class="form-input" id="area_error" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Erro da Suavidade</label>
+                    <input type="number" step="any" min="0" class="form-input" id="smoothness_error" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Erro da Compacidade</label>
+                    <input type="number" step="any" min="0" class="form-input" id="compactness_error" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Erro da Concavidade</label>
+                    <input type="number" step="any" min="0" class="form-input" id="concavity_error" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Erro dos Pontos Côncavos</label>
+                    <input type="number" step="any" min="0" class="form-input" id="concave_points_error" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Erro da Simetria</label>
+                    <input type="number" step="any" min="0" class="form-input" id="symmetry_error" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Erro da Dimensão Fractal</label>
+                    <input type="number" step="any" min="0" class="form-input" id="fractal_dimension_error" required>
+                </div>
+            </div>
+
+            <!-- Piores Valores -->
+            <div class="form-section">
+                <h3 class="section-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                        <line x1="12" y1="9" x2="12" y2="13"></line>
+                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                    </svg>
+                    Piores Valores
+                </h3>
+                
+                <div class="form-group">
+                    <label class="form-label">Pior Raio</label>
+                    <input type="number" step="any" min="0" class="form-input" id="worst_radius" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Pior Textura</label>
+                    <input type="number" step="any" min="0" class="form-input" id="worst_texture" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Pior Perímetro</label>
+                    <input type="number" step="any" min="0" class="form-input" id="worst_perimeter" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Pior Área</label>
+                    <input type="number" step="any" min="0" class="form-input" id="worst_area" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Pior Suavidade</label>
+                    <input type="number" step="any" min="0" class="form-input" id="worst_smoothness" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Pior Compacidade</label>
+                    <input type="number" step="any" min="0" class="form-input" id="worst_compactness" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Pior Concavidade</label>
+                    <input type="number" step="any" min="0" class="form-input" id="worst_concavity" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Piores Pontos Côncavos</label>
+                    <input type="number" step="any" min="0" class="form-input" id="worst_concave_points" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Pior Simetria</label>
+                    <input type="number" step="any" min="0" class="form-input" id="worst_symmetry" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Pior Dimensão Fractal</label>
+                    <input type="number" step="any" min="0" class="form-input" id="worst_fractal_dimension" required>
+                </div>
+            </div>
         </div>
 
-        <div class="upload-section">
-            <label class="upload-label">Segunda Imagem</label>
-            <div class="upload-area" id="uploadArea2" onclick="document.getElementById('image2').click()">
-                <div class="upload-icon">+</div>
-                <div class="upload-text">Clique para selecionar a imagem</div>
-                <div class="file-name" id="fileName2"></div>
-                <div class="preview-container" id="preview2"></div>
-            </div>
-            <input type="file" id="image2" name="image2" accept="image/*" required>
-        </div>
-
-        <button type="submit" class="btn-submit" id="submitBtn">Enviar Imagens</button>
+        <button type="submit" class="btn-submit" id="submitBtn">
+            <span>Realizar Análise</span>
+        </button>
     </form>
 
     <div class="loading" id="loading">
         <div class="spinner"></div>
-        <p style="margin-top: 10px; color: #666;">Enviando imagens...</p>
+        <p style="margin-top: 10px; color: #94a3b8;">Processando análise...</p>
     </div>
-
-    <div class="message" id="message"></div>
 </div>
 {% endblock %}
 
 {% block extra_js %}
 <script>
-    // Função genérica para configurar o comportamento de um campo de input de imagem
-    function setupImageInput(inputId, areaId, fileNameId, previewId) {
-        const input = document.getElementById(inputId);
-        const area = document.getElementById(areaId);
-        const fileName = document.getElementById(fileNameId);
-        const preview = document.getElementById(previewId);
-
-        // Adiciona um listener para quando o arquivo é selecionado
-        input.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                area.classList.add('has-file'); // Adiciona a classe para mudar o estilo (verde)
-                fileName.textContent = `✓ ${file.name}`; // Exibe o nome do arquivo
-                
-                // Configura o leitor de arquivos para pré-visualização
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    // Insere a tag <img> com a URL da imagem no container de preview
-                    preview.innerHTML = `<img src="${e.target.result}" class="preview-image" alt="Preview">`;
-                };
-                reader.readAsDataURL(file); // Lê o arquivo como URL de dados (base64)
-            }
-        });
+    // Dados de exemplo Benigno (caso real do dataset - ID: 8510426)
+    function preencherDadosBenignos() {
+        const dadosBenignos = {
+            mean_radius: 13.54,
+            mean_texture: 14.36,
+            mean_perimeter: 87.46,
+            mean_area: 566.3,
+            mean_smoothness: 0.09779,
+            mean_compactness: 0.08129,
+            mean_concavity: 0.06664,
+            mean_concave_points: 0.04781,
+            mean_symmetry: 0.1885,
+            mean_fractal_dimension: 0.05766,
+            radius_error: 0.2699,
+            texture_error: 0.7886,
+            perimeter_error: 2.058,
+            area_error: 23.56,
+            smoothness_error: 0.008462,
+            compactness_error: 0.0146,
+            concavity_error: 0.02387,
+            concave_points_error: 0.01315,
+            symmetry_error: 0.0198,
+            fractal_dimension_error: 0.0023,
+            worst_radius: 15.11,
+            worst_texture: 19.26,
+            worst_perimeter: 99.7,
+            worst_area: 711.2,
+            worst_smoothness: 0.144,
+            worst_compactness: 0.1773,
+            worst_concavity: 0.239,
+            worst_concave_points: 0.1288,
+            worst_symmetry: 0.2977,
+            worst_fractal_dimension: 0.07259
+        };
+        preencherFormulario(dadosBenignos);
     }
 
-    // Chama a função para configurar os inputs de Imagem 1 e Imagem 2
-    setupImageInput('image1', 'uploadArea1', 'fileName1', 'preview1');
-    setupImageInput('image2', 'uploadArea2', 'fileName2', 'preview2');
+    // Dados de exemplo Maligno (caso real do dataset - ID: 842302)
+    function preencherDadosMalignos() {
+        const dadosMalignos = {
+            mean_radius: 17.99,
+            mean_texture: 10.38,
+            mean_perimeter: 122.8,
+            mean_area: 1001,
+            mean_smoothness: 0.1184,
+            mean_compactness: 0.2776,
+            mean_concavity: 0.3001,
+            mean_concave_points: 0.1471,
+            mean_symmetry: 0.2419,
+            mean_fractal_dimension: 0.07871,
+            radius_error: 1.095,
+            texture_error: 0.9053,
+            perimeter_error: 8.589,
+            area_error: 153.4,
+            smoothness_error: 0.006399,
+            compactness_error: 0.04904,
+            concavity_error: 0.05373,
+            concave_points_error: 0.01587,
+            symmetry_error: 0.03003,
+            fractal_dimension_error: 0.006193,
+            worst_radius: 25.38,
+            worst_texture: 17.33,
+            worst_perimeter: 184.6,
+            worst_area: 2019,
+            worst_smoothness: 0.1622,
+            worst_compactness: 0.6656,
+            worst_concavity: 0.7119,
+            worst_concave_points: 0.2654,
+            worst_symmetry: 0.4601,
+            worst_fractal_dimension: 0.1189
+        };
+        preencherFormulario(dadosMalignos);
+    }
 
-    // Listener para o envio do formulário (substitui o envio padrão do HTML)
-    document.getElementById('uploadForm').addEventListener('submit', async function(e) {
-        e.preventDefault(); // Impede o envio tradicional (recarregamento de página)
+    function preencherFormulario(dados) {
+        for (const [key, value] of Object.entries(dados)) {
+            const input = document.getElementById(key);
+            if (input) {
+                input.value = value;
+            }
+        }
+    }
 
-        // Seleciona os arquivos e elementos de controle
-        const image1 = document.getElementById('image1').files[0];
-        const image2 = document.getElementById('image2').files[0];
+    document.getElementById('analysisForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+
         const submitBtn = document.getElementById('submitBtn');
         const loading = document.getElementById('loading');
-        const message = document.getElementById('message');
-
-        // Validação: verifica se ambas as imagens foram selecionadas
-        if (!image1 || !image2) {
-            showMessage('Por favor, selecione ambas as imagens', 'error');
-            return;
-        }
-
-        // Cria o objeto FormData para empacotar os arquivos e enviá-los via POST
-        const formData = new FormData();
-        formData.append('image1', image1);
-        formData.append('image2', image2);
-        
-        // Obtém o token CSRF (Cross-Site Request Forgery) do input escondido no formulário
         const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
-        // Desabilita o botão e exibe o loading
+        // Coletar todos os dados do formulário
+        const formData = {
+            mean_radius: parseFloat(document.getElementById('mean_radius').value),
+            mean_texture: parseFloat(document.getElementById('mean_texture').value),
+            mean_perimeter: parseFloat(document.getElementById('mean_perimeter').value),
+            mean_area: parseFloat(document.getElementById('mean_area').value),
+            mean_smoothness: parseFloat(document.getElementById('mean_smoothness').value),
+            mean_compactness: parseFloat(document.getElementById('mean_compactness').value),
+            mean_concavity: parseFloat(document.getElementById('mean_concavity').value),
+            mean_concave_points: parseFloat(document.getElementById('mean_concave_points').value),
+            mean_symmetry: parseFloat(document.getElementById('mean_symmetry').value),
+            mean_fractal_dimension: parseFloat(document.getElementById('mean_fractal_dimension').value),
+            radius_error: parseFloat(document.getElementById('radius_error').value),
+            texture_error: parseFloat(document.getElementById('texture_error').value),
+            perimeter_error: parseFloat(document.getElementById('perimeter_error').value),
+            area_error: parseFloat(document.getElementById('area_error').value),
+            smoothness_error: parseFloat(document.getElementById('smoothness_error').value),
+            compactness_error: parseFloat(document.getElementById('compactness_error').value),
+            concavity_error: parseFloat(document.getElementById('concavity_error').value),
+            concave_points_error: parseFloat(document.getElementById('concave_points_error').value),
+            symmetry_error: parseFloat(document.getElementById('symmetry_error').value),
+            fractal_dimension_error: parseFloat(document.getElementById('fractal_dimension_error').value),
+            worst_radius: parseFloat(document.getElementById('worst_radius').value),
+            worst_texture: parseFloat(document.getElementById('worst_texture').value),
+            worst_perimeter: parseFloat(document.getElementById('worst_perimeter').value),
+            worst_area: parseFloat(document.getElementById('worst_area').value),
+            worst_smoothness: parseFloat(document.getElementById('worst_smoothness').value),
+            worst_compactness: parseFloat(document.getElementById('worst_compactness').value),
+            worst_concavity: parseFloat(document.getElementById('worst_concavity').value),
+            worst_concave_points: parseFloat(document.getElementById('worst_concave_points').value),
+            worst_symmetry: parseFloat(document.getElementById('worst_symmetry').value),
+            worst_fractal_dimension: parseFloat(document.getElementById('worst_fractal_dimension').value)
+        };
+
         submitBtn.disabled = true;
         loading.style.display = 'block';
-        message.style.display = 'none';
 
         try {
-            // Usa a API Fetch para enviar os dados para a URL '/upload/'
-            const response = await fetch('/upload/', {
+            const response = await fetch('/analyze/', {
                 method: 'POST',
-                body: formData,
                 headers: {
-                    // Adiciona o token CSRF ao cabeçalho para autenticação do Django
+                    'Content-Type': 'application/json',
                     'X-CSRFToken': csrftoken
-                }
+                },
+                body: JSON.stringify(formData)
             });
 
-            // Converte a resposta JSON do servidor
             const data = await response.json();
-            
-            console.log('Resposta do servidor:', data); // Log para depuração
 
             if (data.success) {
-                showMessage(data.message, 'success');
-                
-                // Redireciona para a página de resultados após um pequeno atraso
-                setTimeout(() => {
-                    console.log('Redirecionando para:', data.redirect_url); // Log para depuração
-                    window.location.href = data.redirect_url;
-                }, 1000);
+                window.location.href = data.redirect_url;
             } else {
-                // Exibe mensagem de erro retornada pelo servidor
-                showMessage(data.message || 'Erro ao processar as imagens', 'error');
+                alert(data.message || 'Erro ao processar a análise');
             }
         } catch (error) {
-            // Captura e exibe erros de rede ou processamento
-            showMessage('Erro ao enviar imagens. Tente novamente.', 'error');
+            alert('Erro ao enviar dados. Tente novamente.');
             console.error('Erro:', error);
         } finally {
-            // Reabilita o botão e esconde o loading (exceto se o redirecionamento já tiver começado)
             submitBtn.disabled = false;
             loading.style.display = 'none';
         }
     });
-
-    // Função auxiliar para exibir mensagens de feedback
-    function showMessage(text, type) {
-        const message = document.getElementById('message');
-        message.textContent = text;
-        // Define a classe correta (success ou error)
-        message.className = `message ${type}`;
-        message.style.display = 'block';
-    }
 </script>
 {% endblock %}
