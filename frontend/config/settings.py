@@ -12,51 +12,59 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 import os
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# 1. Configuração de Caminhos
+# BASE_DIR aponta para o diretório raiz do projeto (onde manage.py está ou a pasta 'config' se for um subprojeto)
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
+# 2. Configurações de Segurança e Desenvolvimento
+# A chave secreta deve ser mantida confidencial, especialmente em produção
 SECRET_KEY = 'django-insecure-^^2n$cvqxu*6xlvrltrsz*@wioq2(o(r=vg&nmb-e$s5(3$(5e'
 
-# SECURITY WARNING: don't run with debug turned on in production!
+# DEBUG = True significa que erros detalhados são exibidos (somente para desenvolvimento!)
 DEBUG = True
 
+# Lista de hosts/domínios permitidos para servir o site
 ALLOWED_HOSTS = []
 
 
-# Application definition
-
+# 3. Definição de Aplicativos
+# INSTALLED_APPS lista todos os aplicativos que o Django deve carregar e usar.
 INSTALLED_APPS = [
+    # Aplicativos internos do Django (funcionalidades essenciais)
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Aplicativo customizado deste projeto para lidar com o upload de imagens
     'upload_imagens',
 ]
 
+# 4. Middlewares
+# O MIDDLEWARE é uma lista de classes que processam requisições e respostas globalmente.
+# Eles executam tarefas como gerenciamento de sessão, segurança, proteção CSRF e autenticação.
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware', # Gerencia sessões (necessário para request.session)
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware', # Proteção contra ataques CSRF
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# 5. Configuração de URLs e Aplicações
+# Aponta para o módulo de URL principal do projeto
 ROOT_URLCONF = 'config.urls'
 
+# 6. Configuração de Templates
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
+        'DIRS': [], # Diretórios onde procurar templates globais (vazio, usa APP_DIRS)
+        'APP_DIRS': True, # Diz ao Django para procurar templates dentro da pasta 'templates' de cada app
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.request',
@@ -67,23 +75,20 @@ TEMPLATES = [
     },
 ]
 
+# Ponto de entrada do aplicativo WSGI (necessário para servidores de produção síncronos)
 WSGI_APPLICATION = 'config.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-
+# 7. Configuração do Banco de Dados
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.sqlite3', # Define o SQLite como banco padrão
+        'NAME': BASE_DIR / 'db.sqlite3', # Localização do arquivo do banco de dados
     }
 }
 
 
-# Password validation
-# https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
-
+# 8. Validação de Senhas (configuração padrão)
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -100,32 +105,28 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# Internationalization
-# https://docs.djangoproject.com/en/5.2/topics/i18n/
-
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
-
+# 9. Internacionalização
+LANGUAGE_CODE = 'en-us' # Idioma padrão
+TIME_ZONE = 'UTC' # Fuso horário
 USE_I18N = True
-
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.2/howto/static-files/
-
+# 10. Arquivos Estáticos (CSS, JS)
+# STATIC_URL é a URL base usada ao referenciar arquivos estáticos em templates
 STATIC_URL = 'static/'
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
-
+# Campo de chave primária padrão
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Media files (uploads)
+# 11. Configuração de Arquivos de Mídia (Uploads de Usuários)
+# MEDIA_URL é a URL base usada para servir arquivos carregados por usuários
 MEDIA_URL = '/media/'
+# MEDIA_ROOT é o caminho absoluto no sistema de arquivos onde os arquivos de upload serão salvos
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# Configurações de upload
-FILE_UPLOAD_MAX_MEMORY_SIZE = 10485760  # 10 MB
-DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760  # 10 MB
+# 12. Limites de Upload (Importante para evitar ataques DoS)
+# FILE_UPLOAD_MAX_MEMORY_SIZE e DATA_UPLOAD_MAX_MEMORY_SIZE limitam o tamanho dos uploads
+# Ambos definidos em 10 MB (10 * 1024 * 1024 bytes)
+FILE_UPLOAD_MAX_MEMORY_SIZE = 10485760  # 10 MB
+DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760  # 10 MB
