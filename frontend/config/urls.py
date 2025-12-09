@@ -5,7 +5,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('upload_imagens.urls')),
+    path('', include('upload_imagens.urls')), 
 ]
 
 # Adicionar suporte para servir arquivos de media em desenvolvimento
