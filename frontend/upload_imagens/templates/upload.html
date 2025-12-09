@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Upload de Imagens - Cancer de Mama{% endblock %}
+{% block title %}Análise de Câncer de Mama{% endblock %}
 
 {% block extra_css %}
 <style>
@@ -9,88 +9,87 @@
         border-radius: 20px;
         box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
         padding: 40px;
-        max-width: 600px;
+        max-width: 900px; /* Aumentado para caber o grid */
         width: 100%;
     }
 
     h1 {
         text-align: center;
         color: #f5f6f8;
-        margin-bottom: 10px;
-        font-size: 28px;
+        margin-bottom: 20px;
     }
 
     .subtitle {
         text-align: center;
         color: #b5b2b2;
         margin-bottom: 30px;
-        font-size: 14px;
     }
 
-    .upload-section {
-        margin-bottom: 25px;
+    /* Botões de Exemplo */
+    .example-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-bottom: 30px;
     }
 
-    .upload-label {
-        display: block;
-        font-weight: 600;
-        color: #ffffff;
-        margin-bottom: 10px;
-        font-size: 16px;
-    }
-
-    .upload-area {
-        border: 2px dashed #667eea;
-        border-radius: 12px;
-        padding: 30px;
-        text-align: center;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        background: #f8f9ff;
-    }
-
-    .upload-area:hover {
-        border-color: #764ba2;
-        background: #f0f2ff;
-        transform: translateY(-2px);
-    }
-
-    .upload-area.has-file {
-        border-color: #1f936c;
-        background: #f0fdf4;
-    }
-
-    .upload-icon {
-        font-size: 48px;
-        margin-bottom: 10px;
-    }
-
-    .upload-text {
-        color: #464646;
-        font-size: 14px;
-    }
-
-    .file-name {
-        margin-top: 10px;
-        color: #1f936c;
-        font-weight: 600;
-        word-break: break-all;
-    }
-
-    input[type="file"] {
-        display: none;
-    }
-
-    .preview-container {
-        margin-top: 15px;
-        text-align: center;
-    }
-
-    .preview-image {
-        max-width: 100%;
-        max-height: 200px;
+    .btn-example {
+        padding: 10px 20px;
+        border: none;
         border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        color: white;
+        cursor: pointer;
+        font-weight: 600;
+        transition: transform 0.2s;
+    }
+
+    .btn-benigno { background-color: #10b981; } /* Verde */
+    .btn-maligno { background-color: #ef4444; } /* Vermelho */
+
+    .btn-example:hover { transform: scale(1.05); }
+
+    /* Grid do Formulário */
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); /* 3 Colunas */
+        gap: 15px;
+        margin-bottom: 30px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form-group label {
+        color: #cbd5e1;
+        font-size: 12px;
+        margin-bottom: 5px;
+    }
+
+    .form-group input {
+        background: #0f172a;
+        border: 1px solid #334155;
+        border-radius: 6px;
+        padding: 8px;
+        color: white;
+        font-size: 14px;
+    }
+
+    .form-group input:focus {
+        border-color: #667eea;
+        outline: none;
+    }
+
+    .category-title {
+        grid-column: 1 / -1;
+        color: #667eea;
+        font-size: 16px;
+        font-weight: bold;
+        margin-top: 15px;
+        margin-bottom: 5px;
+        border-bottom: 1px solid #334155;
+        padding-bottom: 5px;
     }
 
     .btn-submit {
@@ -104,193 +103,164 @@
         font-weight: 600;
         cursor: pointer;
         transition: all 0.3s ease;
-        margin-top: 30px;
     }
 
-    .btn-submit:hover:not(:disabled) {
+    .btn-submit:hover {
         transform: translateY(-2px);
         background: #360a63;
-    }
-    .btn-submit:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
-    }
-
-    .message {
-        margin-top: 20px;
-        padding: 15px;
-        border-radius: 8px;
-        text-align: center;
-        font-weight: 500;
-        display: none;
-    }
-
-    .message.success {
-        background: #d1fae5;
-        color: #065f46;
-        border: 1px solid #10b981;
-    }
-
-    .message.error {
-        background: #fee2e2;
-        color: #991b1b;
-        border: 1px solid #ef4444;
     }
 
     .loading {
         display: none;
         text-align: center;
         margin-top: 20px;
+        color: #b5b2b2;
     }
-
+    
     .spinner {
         border: 3px solid #f3f3f3;
         border-top: 3px solid #667eea;
         border-radius: 50%;
-        width: 40px;
-        height: 40px;
+        width: 30px;
+        height: 30px;
         animation: spin 1s linear infinite;
-        margin: 0 auto;
+        margin: 0 auto 10px auto;
     }
 
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 </style>
 {% endblock %}
 
 {% block content %}
 <div class="container">
-    <h1>Teste de Cancer de mama</h1>
-    <p class="subtitle">Selecione duas imagens para enviar</p>
+    <h1>Análise Clínica - Câncer de Mama</h1>
+    <p class="subtitle">Insira as medidas do exame ou utilize os exemplos abaixo.</p>
 
-    <form id="uploadForm">
+    <div class="example-buttons">
+        <button type="button" class="btn-example btn-benigno" onclick="setBenigno()">Setar Medidas Benignas</button>
+        <button type="button" class="btn-example btn-maligno" onclick="setMaligno()">Setar Medidas Malignas</button>
+    </div>
+
+    <form id="analysisForm">
         {% csrf_token %}
-        
-        <div class="upload-section">
-            <label class="upload-label">Primeira Imagem</label>
-            <div class="upload-area" id="uploadArea1" onclick="document.getElementById('image1').click()">
-                <div class="upload-icon">+</div>
-                <div class="upload-text">Clique para selecionar a imagem</div>
-                <div class="file-name" id="fileName1"></div>
-                <div class="preview-container" id="preview1"></div>
-            </div>
-            <input type="file" id="image1" name="image1" accept="image/*" required>
+        <div class="form-grid">
+            <div class="category-title">Médias (Mean)</div>
+            <div class="form-group"><label>Raio (Mean)</label><input type="number" step="any" name="mean_radius" required></div>
+            <div class="form-group"><label>Textura (Mean)</label><input type="number" step="any" name="mean_texture" required></div>
+            <div class="form-group"><label>Perímetro (Mean)</label><input type="number" step="any" name="mean_perimeter" required></div>
+            <div class="form-group"><label>Área (Mean)</label><input type="number" step="any" name="mean_area" required></div>
+            <div class="form-group"><label>Suavidade (Mean)</label><input type="number" step="any" name="mean_smoothness" required></div>
+            <div class="form-group"><label>Compacidade (Mean)</label><input type="number" step="any" name="mean_compactness" required></div>
+            <div class="form-group"><label>Concavidade (Mean)</label><input type="number" step="any" name="mean_concavity" required></div>
+            <div class="form-group"><label>Pontos Côncavos (Mean)</label><input type="number" step="any" name="mean_concave_points" required></div>
+            <div class="form-group"><label>Simetria (Mean)</label><input type="number" step="any" name="mean_symmetry" required></div>
+            <div class="form-group"><label>Dimensão Fractal (Mean)</label><input type="number" step="any" name="mean_fractal_dimension" required></div>
+
+            <div class="category-title">Erros Padrão (Error)</div>
+            <div class="form-group"><label>Raio (Error)</label><input type="number" step="any" name="radius_error" required></div>
+            <div class="form-group"><label>Textura (Error)</label><input type="number" step="any" name="texture_error" required></div>
+            <div class="form-group"><label>Perímetro (Error)</label><input type="number" step="any" name="perimeter_error" required></div>
+            <div class="form-group"><label>Área (Error)</label><input type="number" step="any" name="area_error" required></div>
+            <div class="form-group"><label>Suavidade (Error)</label><input type="number" step="any" name="smoothness_error" required></div>
+            <div class="form-group"><label>Compacidade (Error)</label><input type="number" step="any" name="compactness_error" required></div>
+            <div class="form-group"><label>Concavidade (Error)</label><input type="number" step="any" name="concavity_error" required></div>
+            <div class="form-group"><label>Pontos Côncavos (Error)</label><input type="number" step="any" name="concave_points_error" required></div>
+            <div class="form-group"><label>Simetria (Error)</label><input type="number" step="any" name="symmetry_error" required></div>
+            <div class="form-group"><label>Dimensão Fractal (Error)</label><input type="number" step="any" name="fractal_dimension_error" required></div>
+
+            <div class="category-title">Piores Valores (Worst)</div>
+            <div class="form-group"><label>Raio (Worst)</label><input type="number" step="any" name="worst_radius" required></div>
+            <div class="form-group"><label>Textura (Worst)</label><input type="number" step="any" name="worst_texture" required></div>
+            <div class="form-group"><label>Perímetro (Worst)</label><input type="number" step="any" name="worst_perimeter" required></div>
+            <div class="form-group"><label>Área (Worst)</label><input type="number" step="any" name="worst_area" required></div>
+            <div class="form-group"><label>Suavidade (Worst)</label><input type="number" step="any" name="worst_smoothness" required></div>
+            <div class="form-group"><label>Compacidade (Worst)</label><input type="number" step="any" name="worst_compactness" required></div>
+            <div class="form-group"><label>Concavidade (Worst)</label><input type="number" step="any" name="worst_concavity" required></div>
+            <div class="form-group"><label>Pontos Côncavos (Worst)</label><input type="number" step="any" name="worst_concave_points" required></div>
+            <div class="form-group"><label>Simetria (Worst)</label><input type="number" step="any" name="worst_symmetry" required></div>
+            <div class="form-group"><label>Dimensão Fractal (Worst)</label><input type="number" step="any" name="worst_fractal_dimension" required></div>
         </div>
 
-        <div class="upload-section">
-            <label class="upload-label">Segunda Imagem</label>
-            <div class="upload-area" id="uploadArea2" onclick="document.getElementById('image2').click()">
-                <div class="upload-icon">+</div>
-                <div class="upload-text">Clique para selecionar a imagem</div>
-                <div class="file-name" id="fileName2"></div>
-                <div class="preview-container" id="preview2"></div>
-            </div>
-            <input type="file" id="image2" name="image2" accept="image/*" required>
-        </div>
-
-        <button type="submit" class="btn-submit" id="submitBtn">Enviar Imagens</button>
+        <button type="submit" class="btn-submit" id="submitBtn">Realizar Análise</button>
     </form>
 
     <div class="loading" id="loading">
         <div class="spinner"></div>
-        <p style="margin-top: 10px; color: #666;">Enviando imagens...</p>
+        <p>Processando dados com Inteligência Artificial...</p>
     </div>
-
-    <div class="message" id="message"></div>
 </div>
 {% endblock %}
 
 {% block extra_js %}
 <script>
-    function setupImageInput(inputId, areaId, fileNameId, previewId) {
-        const input = document.getElementById(inputId);
-        const area = document.getElementById(areaId);
-        const fileName = document.getElementById(fileNameId);
-        const preview = document.getElementById(previewId);
+    // Dados extraídos do data.csv fornecido
+    const benignoData = {
+        mean_radius: 13.54, mean_texture: 14.36, mean_perimeter: 87.46, mean_area: 566.3, mean_smoothness: 0.09779,
+        mean_compactness: 0.08129, mean_concavity: 0.06664, mean_concave_points: 0.04781, mean_symmetry: 0.1885, mean_fractal_dimension: 0.05766,
+        radius_error: 0.2699, texture_error: 0.7886, perimeter_error: 2.058, area_error: 23.56, smoothness_error: 0.008462,
+        compactness_error: 0.0146, concavity_error: 0.02387, concave_points_error: 0.01315, symmetry_error: 0.0198, fractal_dimension_error: 0.0023,
+        worst_radius: 15.11, worst_texture: 19.26, worst_perimeter: 99.7, worst_area: 711.2, worst_smoothness: 0.144,
+        worst_compactness: 0.1773, worst_concavity: 0.239, worst_concave_points: 0.1288, worst_symmetry: 0.2977, worst_fractal_dimension: 0.07259
+    };
 
-        input.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                area.classList.add('has-file');
-                fileName.textContent = `✓ ${file.name}`;
-                
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    preview.innerHTML = `<img src="${e.target.result}" class="preview-image" alt="Preview">`;
-                };
-                reader.readAsDataURL(file);
-            }
-        });
+    const malignoData = {
+        mean_radius: 17.99, mean_texture: 10.38, mean_perimeter: 122.8, mean_area: 1001, mean_smoothness: 0.1184,
+        mean_compactness: 0.2776, mean_concavity: 0.3001, mean_concave_points: 0.1471, mean_symmetry: 0.2419, mean_fractal_dimension: 0.07871,
+        radius_error: 1.095, texture_error: 0.9053, perimeter_error: 8.589, area_error: 153.4, smoothness_error: 0.006399,
+        compactness_error: 0.04904, concavity_error: 0.05373, concave_points_error: 0.01587, symmetry_error: 0.03003, fractal_dimension_error: 0.006193,
+        worst_radius: 25.38, worst_texture: 17.33, worst_perimeter: 184.6, worst_area: 2019, worst_smoothness: 0.1622,
+        worst_compactness: 0.6656, worst_concavity: 0.7119, worst_concave_points: 0.2654, worst_symmetry: 0.4601, worst_fractal_dimension: 0.1189
+    };
+
+    function fillForm(data) {
+        for (const [key, value] of Object.entries(data)) {
+            const input = document.querySelector(`[name="${key}"]`);
+            if (input) input.value = value;
+        }
     }
 
-    setupImageInput('image1', 'uploadArea1', 'fileName1', 'preview1');
-    setupImageInput('image2', 'uploadArea2', 'fileName2', 'preview2');
+    function setBenigno() { fillForm(benignoData); }
+    function setMaligno() { fillForm(malignoData); }
 
-    document.getElementById('uploadForm').addEventListener('submit', async function(e) {
+    document.getElementById('analysisForm').addEventListener('submit', async function(e) {
         e.preventDefault();
-
-        const image1 = document.getElementById('image1').files[0];
-        const image2 = document.getElementById('image2').files[0];
-        const submitBtn = document.getElementById('submitBtn');
+        const btn = document.getElementById('submitBtn');
         const loading = document.getElementById('loading');
-        const message = document.getElementById('message');
-
-        if (!image1 || !image2) {
-            showMessage('Por favor, selecione ambas as imagens', 'error');
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append('image1', image1);
-        formData.append('image2', image2);
         
-        // Adiciona o CSRF token
-        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-
-        submitBtn.disabled = true;
+        btn.disabled = true;
+        btn.style.opacity = '0.5';
         loading.style.display = 'block';
-        message.style.display = 'none';
+
+        const formData = new FormData(this);
+        const data = Object.fromEntries(formData.entries());
 
         try {
             const response = await fetch('/upload/', {
                 method: 'POST',
-                body: formData,
                 headers: {
-                    'X-CSRFToken': csrftoken
-                }
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                },
+                body: JSON.stringify(data)
             });
 
-            const data = await response.json();
-            
-            console.log('Resposta do servidor:', data); // Debug
+            const result = await response.json();
 
-            if (data.success) {
-                showMessage(data.message, 'success');
-                
-                // Redireciona após 1 segundo
-                setTimeout(() => {
-                    console.log('Redirecionando para:', data.redirect_url); // Debug
-                    window.location.href = data.redirect_url;
-                }, 1000);
+            if (result.success) {
+                window.location.href = result.redirect_url;
             } else {
-                showMessage(data.message || 'Erro ao processar as imagens', 'error');
+                alert('Erro: ' + result.message);
+                btn.disabled = false;
+                btn.style.opacity = '1';
+                loading.style.display = 'none';
             }
         } catch (error) {
-            showMessage('Erro ao enviar imagens. Tente novamente.', 'error');
             console.error('Erro:', error);
-        } finally {
-            submitBtn.disabled = false;
+            alert('Erro ao conectar com o servidor.');
+            btn.disabled = false;
+            btn.style.opacity = '1';
             loading.style.display = 'none';
         }
     });
-
-    function showMessage(text, type) {
-        const message = document.getElementById('message');
-        message.textContent = text;
-        message.className = `message ${type}`;
-        message.style.display = 'block';
-    }
 </script>
 {% endblock %}
