@@ -489,7 +489,7 @@
         };
         preencherFormulario(dadosMalignos);
     }
-
+    // Função auxiliar que coloca os valores nos campos de input HTML
     function preencherFormulario(dados) {
         for (const [key, value] of Object.entries(dados)) {
             const input = document.getElementById(key);
@@ -498,7 +498,7 @@
             }
         }
     }
-
+    // Intercepta o envio do formulário (botão "Realizar Análise")
     document.getElementById('analysisForm').addEventListener('submit', async function(e) {
         e.preventDefault();
 
@@ -544,6 +544,7 @@
         loading.style.display = 'block';
 
         try {
+            // Envia os dados para o Django (views.py) sem sair da página
             const response = await fetch('/analyze/', {
                 method: 'POST',
                 headers: {
@@ -555,6 +556,7 @@
 
             const data = await response.json();
 
+            // Se o Django responder "sucesso", redireciona para a página de resultado
             if (data.success) {
                 window.location.href = data.redirect_url;
             } else {

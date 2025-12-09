@@ -4,45 +4,44 @@ from datetime import datetime
 import json
 import requests
 
-# URL da API FastAPI
+# Endereço da IA que sabe interpretar os números (Raio, Textura, etc.)
 API_URL = "http://127.0.0.1:8000/predict"
 
 def upload_page(request):
     """
-    Renderiza o template HTML do formulário de entrada de dados.
-    Mapeada para a URL: /
+    Rota '/'
+    Renderiza o formulário (upload.html) onde o médico/usuário digita
+    manualmente os 30 valores numéricos dos exames.
     """
     return render(request, 'upload.html')
 
 def analyze_data(request):
     """
-    Lida com o envio de dados via POST.
-    Mapeada para a URL: /analyze/
+    Rota '/analyze/' (POST)
+    Recebe o JSON com os números digitados no formulário.
     """
     if request.method == 'POST':
         try:
-            # Pegar os dados JSON do corpo da requisição
+            # 1. RECEBE OS DADOS MANUAIS
+            # O 'request.body' contém o JSON enviado pelo JavaScript do formulário.
             data = json.loads(request.body)
-            
-            print(f"Dados recebidos: {data}")  # Debug
-            
-            # Fazer requisição para a API FastAPI
+                        
+            # 2. CONSULTA A INTELIGÊNCIA ARTIFICIAL
+            # Envia esses mesmos números para o Backend (FastAPI).
+            # O Backend usa o modelo treinado (Decision Tree) para classificar.
             response = requests.post(API_URL, json=data, timeout=10)
-            
-            print(f"Status da API: {response.status_code}")  # Debug
             
             if response.status_code == 200:
                 prediction_result = response.json()
                 
-                print(f"Resultado da predição: {prediction_result}")  # Debug
-                
-                # Salvar resultado na sessão
+                # 3. GUARDA O RESULTADO
+                # Salva o diagnóstico (Maligno/Benigno) na sessão do navegador.
                 request.session['analise'] = {
                     'resultado': {
                         'prediction': prediction_result['predicted_class'],
                         'confidence': round(prediction_result['confidence'] * 100, 2)
                     },
-                    'dados_entrada': data,
+                    'dados_entrada': data, # Salva os números digitados para referência
                     'timestamp': datetime.now().strftime('%d/%m/%Y às %H:%M'),
                     'model_name': 'Decision Tree (Árvore de Decisão)'
                 }
@@ -53,58 +52,37 @@ def analyze_data(request):
                     'redirect_url': '/resultado/'
                 })
             else:
-                error_msg = f'Erro na API: Status {response.status_code}'
-                print(error_msg)
-                return JsonResponse({
-                    'success': False,
-                    'message': error_msg
-                }, status=500)
+                return JsonResponse({'success': False, 'message': 'Erro na API'}, status=500)
                 
-        except requests.exceptions.RequestException as e:
-            print(f"Erro de conexão com a API: {e}")
-            return JsonResponse({
-                'success': False,
-                'message': f'Erro ao conectar com a API: {str(e)}'
-            }, status=500)
         except Exception as e:
-            print(f"Erro no processamento: {e}")
-            import traceback
-            traceback.print_exc()
-            return JsonResponse({
-                'success': False,
-                'message': f'Erro interno: {str(e)}'
-            }, status=500)
+            return JsonResponse({'success': False, 'message': str(e)}, status=500)
     
-    return JsonResponse({
-        'success': False,
-        'message': 'Método não permitido'
-    }, status=405)
+    return JsonResponse({'success': False}, status=405)
 
 def resultado_view(request):
     """
-    Renderiza o template de resultados, utilizando os dados salvos na sessão.
-    Mapeada para a URL: /resultado/
+    Rota '/resultado/'
+    Exibe o diagnóstico final.
     """
     analise = request.session.get('analise')
     
     if not analise:
         return redirect('upload_page')
     
-    # Preparar dados para o template
     resultado = analise.get('resultado', {})
     prediction = resultado.get('prediction', 'Erro')
     confidence = resultado.get('confidence', 0)
     
     context = {
         'imagem1': {
-            'prediction': prediction,
-            'confidence': confidence,
-            'nome': 'Dados de Entrada 1',
+            'prediction': prediction, # Ex: "Maligno"
+            'confidence': confidence, # Ex: 99.5%
+            'nome': 'Dados de Entrada 1', # Rótulo genérico para o card da esquerda
         },
         'imagem2': {
             'prediction': prediction,
             'confidence': confidence,
-            'nome': 'Dados de Entrada 2',
+            'nome': 'Dados de Entrada 2', # Rótulo genérico para o card da direita
         },
         'timestamp': analise.get('timestamp', ''),
         'model_name': analise.get('model_name', 'Decision Tree')
