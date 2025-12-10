@@ -193,7 +193,7 @@ Lá você verá o formulário para preencher os dados ou usar os botões de "Pre
 
 ## | Colaboradores
 
-Este projeto é o resultado do trabalho e da dedicação de uma equipe incrível. Conheça quem fez o **PedAI** acontecer:
+Este projeto é o resultado do trabalho e da dedicação de uma equipe incrível. Conheça quem fez o **Projeto** acontecer:
 
 <table>
   <tr>
