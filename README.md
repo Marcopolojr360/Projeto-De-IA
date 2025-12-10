@@ -191,4 +191,56 @@ Lá você verá o formulário para preencher os dados ou usar os botões de "Pre
 
   * Verifique se o **Terminal 1** (API) está rodando e não deu erro vermelho. O site precisa que a API esteja ligada para funcionar.
 
+## | Colaboradores
+
+Este projeto é o resultado do trabalho e da dedicação de uma equipe incrível. Conheça quem fez o **PedAI** acontecer:
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/Marcopolojr360">
+        <img src="https://github.com/Marcopolojr360.png" width="100px;" alt="Foto de Marcos Paulo no GitHub"/>
+        <br />
+        <sub><b>Marcos Paulo</b></sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/nicosntos">
+        <img src="https://github.com/nicosntos.png" width="100px;" alt="Foto de Nicolas do Vale no GitHub"/>
+        <br />
+        <sub><b>Nicolas do Vale </b></sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/Pedro-Priori">
+        <img src="https://github.com/Pedro-Priori.png" width="100px;" alt="Foto de Pedro Priori no GitHub"/>
+        <br />
+        <sub><b>Pedro Priori</b></sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/Raicalira">
+        <img src="https://github.com/Raicalira.png" width="100px;" alt="Foto de Raica Lira no GitHub"/>
+        <br />
+        <sub><b>Raica Lira</b></sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/renatoNL">
+        <img src="https://github.com/renatoNL.png" width="100px;" alt="Foto de Renato Nascimento no GitHub"/>
+        <br />
+        <sub><b>Renato Nascimento</b></sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/VictorGabriel-00">
+        <img src="https://github.com/VictorGabriel-00.png" width="100px;" alt="Foto de Victor Gabriel no GitHub"/>
+        <br />
+        <sub><b>Victor Gabriel</b></sub>
+      </a>
+    </td>
+  </tr>
+</table>
+
+
 <!-- end list -->
