@@ -4,18 +4,16 @@
 
 {% block extra_css %}
 <style>
-    /* Container principal centralizado na área de conteúdo */
     .result-container {
-        background: #1E293B; /* Fundo escuro do container */
+        background: #1E293B;
         border-radius: 20px;
         box-shadow: 0 20px 60px rgba(25, 23, 64, 0.3);
         max-width: 1200px;
         width: 100%;
         padding: 40px;
-        animation: slideUp 0.5s ease; /* Animação de entrada */
+        animation: slideUp 0.5s ease;
     }
 
-    /* Define a animação de slide-up */
     @keyframes slideUp {
         from {
             opacity: 0;
@@ -24,16 +22,15 @@
         to {
             opacity: 1;
             transform: translateY(0);
-        } 
+        }   
     }
 
-    /* Estilos do cabeçalho da seção de resultados */
     .result-header {
         text-align: center;
         margin-bottom: 30px;
         padding-bottom: 20px;
         border-bottom: 2px solid #9ea2a7;
-    } 
+    }   
 
     .result-header h1 {
         font-size: 2rem;
@@ -46,16 +43,13 @@
         font-size: 0.95rem;
     }
 
-    /* Grid que organiza os dois cartões de resultados lado a lado (desktop) */
     .comparison-grid {
         display: grid;
-        /* Cria colunas responsivas: 1 ou 2, dependendo da largura */
         grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
         gap: 30px;
         margin-bottom: 30px;
     }
 
-    /* Estilo para cada cartão de resultado individual (Imagem 1 e Imagem 2) */
     .image-result-card {
         background: #323D50;
         border-radius: 16px;
@@ -64,7 +58,6 @@
         transition: transform 0.3s ease;
     }
 
-    /* Cabeçalho do Cartão (Título e Badge de Resultado) */
     .card-header {
         display: flex;
         align-items: center;
@@ -81,7 +74,6 @@
         gap: 10px;
     }
 
-    /* Estilo base para o rótulo de diagnóstico (Badge) */
     .card-badge {
         padding: 6px 12px;
         border-radius: 20px;
@@ -91,19 +83,16 @@
         letter-spacing: 0.5px;
     }
 
-    /* Cores específicas para o resultado Benigno */
     .badge-benigno {
         background: #d1fae5;
         color: #065f46;
     }
 
-    /* Cores específicas para o resultado Maligno */
     .badge-maligno {
         background: #fee2e2;
         color: #991b1b; 
     }
 
-    /* Bloco Compacto que exibe o diagnóstico e a barra de confiança */
     .diagnosis-compact {
         background: linear-gradient(135deg, #192142 0%, #3f1b64 100%);
         color: rgb(255, 255, 255);
@@ -112,12 +101,10 @@
         margin-bottom: 15px;
     }
 
-    /* Fundo gradiente verde para resultado Benigno */
     .diagnosis-compact.benigno {
         background: linear-gradient(135deg, #169269 0%, #036d4c 100%);
     }
 
-    /* Fundo gradiente vermelho para resultado Maligno */
     .diagnosis-compact.maligno {
         background: linear-gradient(135deg, #ce3232 0%, #a91212 100%);
     } 
@@ -134,9 +121,8 @@
         font-size: 1.8rem;
         font-weight: 700;
         margin-bottom: 12px;
-    } 
+    }   
 
-    /* Barra de Progresso/Confiança */
     .confidence-bar {
         background: rgba(55, 53, 67, 0.2);
         border-radius: 10px;
@@ -145,16 +131,16 @@
         margin-bottom: 6px;
     }
 
-    /* Preenchimento da barra, animado via JavaScript ou CSS */
     .confidence-fill {
         height: 100%;
         background: white;
         border-radius: 10px;
         transition: width 1.5s ease;
-        animation: fillBar 1.5s ease forwards; /* Chama a animação de preenchimento */
+        animation: fillBar 1.5s ease forwards;
+        /* AQUI ESTÁ A CORREÇÃO: Usar variável CSS para a largura */
+        width: var(--confianca, 0%);
     }
 
-    /* Animação que faz a barra crescer de 0% até o valor definido */
     @keyframes fillBar {
         from { width: 0%; }
     }
@@ -164,7 +150,6 @@
         opacity: 0.95;
     }
 
-    /* Área de informações detalhadas (Nome do arquivo, Precisão) */
     .image-info {
         background: #4D586C;
         border-radius: 8px;
@@ -188,7 +173,7 @@
     }
 
     .info-value {
-        color: #15253d; /* Cor escura do texto (deve ser ajustada para o fundo escuro) */
+        color: #15253d;
         font-weight: 600;
         font-size: 0.85rem;
         text-align: right;
@@ -196,7 +181,6 @@
         word-break: break-word;
     }
 
-    /* Seção de Resumo e Detalhes da Análise Geral */
     .summary-section {
         background: #323D50;
         border-radius: 12px;
@@ -213,7 +197,6 @@
         gap: 10px;
     }
 
-    /* Grid de detalhes (Data, Imagens Analisadas) */
     .detail-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -238,13 +221,12 @@
     .detail-item .value {
         font-size: 1.2rem;
         font-weight: 600;
-        color: #15253d; /* Cor escura do texto (deve ser ajustada) */
+        color: #15253d;
     }
 
-    /* Seção de Recomendações (Alerta/Aviso) */
     .recommendations {
-        background: #f5c64e71; /* Fundo amarelo claro/opaco */
-        border-left: 4px solid #f59e0b; /* Borda de destaque amarela */
+        background: rgba(245, 198, 78, 0.44);
+        border-left: 4px solid #f59e0b;
         border-radius: 8px;
         padding: 20px;
         margin-bottom: 25px;
@@ -261,7 +243,7 @@
 
     .recommendations ul {
         margin-left: 20px;
-        color: #863e0b; /* Cor escura para o texto da lista */
+        color: #863e0b;
     }
 
     .recommendations li {
@@ -269,7 +251,6 @@
         line-height: 1.6;
     }
 
-    /* Botões de Ação (Nova Análise, Imprimir) */
     .action-buttons {
         display: flex;
         gap: 15px;
@@ -291,7 +272,6 @@
         text-decoration: none;
     }
 
-    /* Estilo do botão principal */
     .buton {
         background: linear-gradient(135deg, #041149 0%, #240544 100%);
         color: white;
@@ -302,7 +282,6 @@
         background: #360a63;
     }
 
-    /* Rodapé com carimbo de data/hora */
     .timestamp {
         text-align: center;
         color: #94a3b8;
@@ -312,9 +291,7 @@
         border-top: 1px solid #e2e8f0;
     }
 
-    /* Media Queries: Ajustes para telas menores */
     @media (max-width: 1024px) {
-        /* Muda o grid de comparação para empilhar em uma única coluna */
         .comparison-grid {
             grid-template-columns: 1fr;
         }
@@ -330,12 +307,10 @@
             font-size: 1.5rem;
         }
 
-        /* Empilha os detalhes do resumo */
         .detail-grid {
             grid-template-columns: 1fr;
         }
 
-        /* Empilha os botões de ação */
         .action-buttons {
             flex-direction: column;
         }
@@ -344,13 +319,13 @@
             width: 100%;
             justify-content: center;
         }
-        
+
         .image-result-card {
-             padding: 15px;
+            padding: 15px;
         }
-        
+
         .diagnosis-value {
-             font-size: 1.5rem;
+            font-size: 1.5rem;
         }
 
         .comparison-grid {
@@ -359,13 +334,12 @@
         }
     }
 
-    /* Estilos de impressão: Oculta elementos irrelevantes na impressão */
     @media print {
-        .sidebar { display: none; } /* Oculta a barra lateral */
-        .main-content { margin-left: 0; } /* Remove a margem da sidebar */
-        .action-buttons { display: none; } /* Oculta botões */
-        body { background: white; } /* Fundo branco para impressão */
-        .result-container { box-shadow: none; } /* Remove sombra */
+        .sidebar { display: none; }
+        .main-content { margin-left: 0; }
+        .action-buttons { display: none; }
+        body { background: white; }
+        .result-container { box-shadow: none; }
     }
 </style>
 {% endblock %}
@@ -397,7 +371,7 @@
                 <div class="diagnosis-label">Diagnóstico</div>
                 <div class="diagnosis-value">{{ imagem1.prediction }}</div>
                 <div class="confidence-bar">
-                    <div class="confidence-fill" style="width: {{ imagem1.confidence }}%"></div>
+                    <div class="confidence-fill" style="--confianca: {{ imagem1.confidence }}%"></div>
                 </div>
                 <div class="confidence-text">Confiança: {{ imagem1.confidence }}%</div>
             </div>
@@ -433,7 +407,7 @@
                 <div class="diagnosis-label">Diagnóstico</div>
                 <div class="diagnosis-value">{{ imagem2.prediction }}</div>
                 <div class="confidence-bar">
-                    <div class="confidence-fill" style="width: {{ imagem2.confidence }}%"></div>
+                    <div class="confidence-fill" style="--confianca: {{ imagem2.confidence }}%"></div>
                 </div>
                 <div class="confidence-text">Confiança: {{ imagem2.confidence }}%</div>
             </div>
@@ -480,7 +454,7 @@
                 <line x1="12" y1="16" x2="12" y2="12"></line>
                 <line x1="12" y1="8" x2="12.01" y2="8"></line>
             </svg>
-            Recomendações Importantes
+              Recomendações Importantes
         </h3>
         <ul>
             {% if imagem1.prediction == "Maligno" or imagem2.prediction == "Maligno" %}

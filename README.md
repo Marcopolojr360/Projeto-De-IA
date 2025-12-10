@@ -1,7 +1,5 @@
 
 -----
-
-````markdown
 # | Detecção de Câncer de Mama com IA
 
 Este é um projeto completo (Fullstack) que utiliza Inteligência Artificial para analisar dados de exames e auxiliar na detecção de câncer de mama. O sistema é dividido em duas partes:
@@ -174,7 +172,6 @@ Abra seu navegador e acesse:
 Lá você verá o formulário para preencher os dados ou usar os botões de "Preencher Exemplo" para testar a detecção.
 
 -----
-
 ## | Solução de Problemas Comuns
 
 **Erro: "python não encontrado"**
