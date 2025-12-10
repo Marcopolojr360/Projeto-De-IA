@@ -12,7 +12,7 @@ def train_and_save():
     base_dir = os.path.dirname(current_dir) 
     
     # Define onde salvar o modelo (pasta 'backend/model')
-    model_dir = os.path.join(current_dir, "backend", "model")
+    model_dir = os.path.join(base_dir, "backend", "model")
     
     # Caminho do CSV
     csv_path = os.path.join(current_dir, "data.csv")
